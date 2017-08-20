@@ -1,0 +1,2 @@
+'Snake - simple classic game'
+
