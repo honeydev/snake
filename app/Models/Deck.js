@@ -1,15 +1,27 @@
+/**
+ * @class Deck create and contain game deck, set deck statements
+ * @property _Cell @constructor for create cell @object
+ * @property {object} _config contain app settings
+ * @property {array} _deck 2-d array, contain Cell and SnakeParts objects.
+ * First array index - y coordinate on deck, second - x coordinate.
+ */
 define(['app/Models/BaseModel'], function(BaseModel, Cell, config) {
     'use strict';
 
     return class Deck extends BaseModel {
-        
+        /** @constructor set properties, generate deck */
         constructor(Cell, config) {
             super();
             this._Cell = Cell;
             this._config = config;
             this._deck = this._generateDeck(this._Cell, this._config.deckRowSize);
         };
-        
+        /**
+         * @method _generateDeck create deck arrray, fill it Cell objects
+         * @param Cell constructor Cell @class
+         * @rowSize {number} rowSize deck row size
+         * @return {array} deck array
+         */
         _generateDeck(Cell, rowSize) {
             //deck is square
             let deck = [];
@@ -31,7 +43,10 @@ define(['app/Models/BaseModel'], function(BaseModel, Cell, config) {
 
             return deck;
         };
-
+        /**
+         * @
+         *
+         */
         synchronizeDeckAndSnake(snake, Cell = this._Cell, deck = this._deck) {
         
 

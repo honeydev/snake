@@ -4,8 +4,9 @@ define(['app/Models/BaseModel'], function(BaseModel) {
 
     return class MainProcessor extends BaseModel {
          
-        constructor(cell, snake, SnakePart, deck, moveStrategy) {
+        constructor(observable, cell, snake, SnakePart, deck, moveStrategy) {
             super();
+            this._observable = observable;
             this._cell = cell;
             this._snake = snake;
             this._SnakePart = SnakePart;
@@ -45,7 +46,15 @@ define(['app/Models/BaseModel'], function(BaseModel) {
             let newHeadCoordinates = moveStrategy.getHeadCoordinates(currentDirection, snakeHeadCoordinates, newDirection);
             snake.refreshSnakeStatment(newHeadCoordinates);
             deck.synchronizeDeckAndSnake(snake.getAllSnakeParts());
-            console.log(deck);
+
+            let snakeCoordinates = snake.universalGetter('_snake');
+            this._observable.sendMessage({
+                higlightCell: snakeCoordinates
+            });
+        };
+
+        movment() {
+
         };
     };  
 });

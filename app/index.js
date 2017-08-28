@@ -1,6 +1,4 @@
 
-const MOD = 'production'; // testing or production
-
 requirejs.config({
     //By default load any module IDs from js/lib
     baseUrl: 'node_modules',
@@ -13,6 +11,7 @@ requirejs.config({
         app: '../app',
         tests: '../tests/src',
         jquery: 'jquery/dist/jquery',
+        bootstrap: 'bootstrap/dist/js/bootstrap',
         mocha: 'mocha/mocha',
         chai: 'chai/chai',
         config: '..'
@@ -23,15 +22,18 @@ requirejs.config({
         },
         chai: {
             exports: "chai"
-        }
+        },
+        'bootstrap': ['jquery']
     }
 });
 
 require(['../app/bootstrapcss'], function(bootstrapcss) {
-    bootstrapcss(['node_modules/bootstrap/dist/css/bootstrap.css']);
+    bootstrapcss(['node_modules/bootstrap/dist/css/bootstrap.css', 'template/style.css']);
 });
 
 require([
+    'app/Models/Observable',
+    'app/Controller',
     'app/Models/Deck', 
     'app/Models/Cell',
     'app/Models/Snake',
@@ -41,8 +43,17 @@ require([
     'app/Models/MoveStrategy',
     'config/config',
     'jquery',
-    'app/Views/PageView'
+    'bootstrap',
+    'app/Views/PageView',
+    'app/Views/StatmentSetter',
+    'app/Views/HelloMessageCreator',
+    'app/Views/HelloMessageDomSetter',
+    'app/Views/MainPageCreator',
+    'app/Views/MainPageDomSetter',
+    'app/Handlers/Handler'
     ], function(
+        Observable,
+        Controller,
         Deck, 
         Cell, 
         Snake, 
@@ -52,52 +63,46 @@ require([
         MoveStrategy,
         config,
         jquery,
-        PageView
+        bootstrap,
+        PageView,
+        StatmentSetter,
+        HelloMessageCreator,
+        HelloMessageDomSetter,
+        MainPageCreator,
+        MainPageDomSetter,
+        Handler
         ) {
+
         let deck = new Deck(Cell, config);
+
+        let mainProcessorObservable = new Observable();
+
         let mainProcessor = new MainProcessor(
-        new Cell(),
-        new Snake(),
-        SnakePart,
-        deck,
-        new MoveStrategy()
-        );
-        new PageView($);
+            mainProcessorObservable,
+            new Cell(),
+            new Snake(),
+            SnakePart,
+            deck,
+            new MoveStrategy()
+            );
+
+        let pageView = new PageView(
+            config,
+            new HelloMessageCreator(),
+            new HelloMessageDomSetter(),
+            new MainPageCreator(),
+            new MainPageDomSetter()
+            );
+
+        let statmentSetter = new StatmentSetter(pageView);
+
+        mainProcessorObservable.addSubscriber(statmentSetter);
+
+        let controller = new Controller(
+            mainProcessor,
+            statmentSetter
+            );
+
+        let handler = new Handler(controller, pageView);
+
 });
-
-if (MOD === 'testing') {
-
-    require(['../tests/bootstrapcss'], function(bootstrapcss) {
-         bootstrapcss(['node_modules/mocha/mocha.css']);
-    });
-
-    require([
-    'mocha',
-    'chai',
-    'app/Models/Cell',
-    'app/Models/Deck',
-    'app/config',
-    'app/Models/MoveStrategy',
-    'tests/src/CellTest.js', 
-    'tests/src/DeckTest.js',
-    'tests/src/MoveStrategyTest.js'
-    ],
-    function(
-        mocha, 
-        chai, 
-        Cell, 
-        Deck, 
-        config, 
-        MoveStrategy, 
-        CellTest, 
-        DeckTest,
-        MoveStrategyTest
-        ) {
-        let cellTest = new CellTest(mocha, chai, new Cell, config);
-        let deckTest = new DeckTest(mocha, chai, new Deck(Cell, config), config);
-        let moveStrategyTest = new MoveStrategyTest(mocha, chai, new MoveStrategy(), config);
-        cellTest.test();
-        deckTest.test();
-        moveStrategyTest.test();
-    });
-}
