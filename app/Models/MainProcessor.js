@@ -12,11 +12,10 @@ define(['app/Models/BaseModel'], function(BaseModel) {
             this._SnakePart = SnakePart;
             this._deck = deck;
             this._moveStrategy = moveStrategy;
-            this.initSnake();
-            this.doStep(snake = this._snake, 'right');
+            //this.doStep(snake = this._snake, 'right');
         };
 
-        initSnake(
+        runSnake(
             snake = this._snake, 
             SnakePart = this._SnakePart, 
             deck = this._deck
@@ -30,31 +29,43 @@ define(['app/Models/BaseModel'], function(BaseModel) {
             deck.changeDeckCell(snakePart);
             snake.addSnakePart(snakeHead);
             snake.addSnakePart(snakePart);
+            console.log('send message');
+            this._observable.sendMessage({
+                higlightCells: [snakeHead.getCoordinates(), snakePart.getCoordinates()]
+            });
         };
 
         /**
          * @var direction string set snake dirrection
          */
         doStep(
-            snake = this._snake, 
             newDirection, 
+            snake = this._snake, 
             moveStrategy = this._moveStrategy, 
-            deck = this._deck) {
+            deck = this._deck
+            ) {
+            console.log(newDirection);
             let currentDirection = snake.universalGetter('_direction');
-            console.log(this._snake);
             let snakeHeadCoordinates = snake.getFirstSnakePart().getCoordinates();
+            console.log(currentDirection);
             let newHeadCoordinates = moveStrategy.getHeadCoordinates(currentDirection, snakeHeadCoordinates, newDirection);
+            console.log(newHeadCoordinates);
             snake.refreshSnakeStatment(newHeadCoordinates);
             deck.synchronizeDeckAndSnake(snake.getAllSnakeParts());
 
             let snakeCoordinates = snake.universalGetter('_snake');
+            let lastSnakePart = snakeCoordinates[snakeCoordinates.length - 1].getOldCoordinates();
+            
             this._observable.sendMessage({
-                higlightCell: snakeCoordinates
+                higlightCells: [newHeadCoordinates]
+            });
+            this._observable.sendMessage({
+                unHiglightCells: [lastSnakePart]
             });
         };
 
         movment() {
-
+            
         };
     };  
 });

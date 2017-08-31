@@ -8,22 +8,46 @@ define(function() {
 
     return class StatemntSetter {
 
-        constructor(pageView) {
+        constructor(
+            pageView, 
+            HelloMessageStatmentSetter, 
+            MainPageStatmentSetter
+            ) {
             this._pageView = pageView;
+            this._helloMessageStatmentSetter = new HelloMessageStatmentSetter();
+            this._mainPageStatmentSetter = new MainPageStatmentSetter(this._pageView.universalGetter('_gameDeck'));
         };
 
-        processMessage(message) {
-        	if (message.hasOwnProperty('higlightCell')) {
+        /** 
+         * @param {object} incomming message where property is 
+         */
+        processMessage(incommingMessage) {
+            console.log(incommingMessage);
+            for (let concretMessage in incommingMessage) {
+                this._processConcretMessage(
+                    incommingMessage[concretMessage], 
+                    concretMessage
+                    );
+            }
+        };
+        /** 
+         * @param {array} message - data for statment setter classes
+         * @param {string} type - type of message
+         * @throw new Error if message has incorrect type
+         */
+        _processConcretMessage(message, type) {
+            if (type === 'higlightCells') {
+                this._mainPageStatmentSetter.higlihtCells(message);
+            } else if (type === 'unHiglightCells') {
+                console.log('unhiglight');
+                this._mainPageStatmentSetter.unHiglightCells(message);
+            } else if (type === 'higlightArrow') {
 
-        	} else if (message.hasOwnProperty('unhiglightCell')) {
+            } else if (type === 'countersStatment') {
 
-        	} else if (message.hasOwnProperty('higlightArrow')) {
-
-        	} else if (message.hasOwnProperty('countersStatment')) {
-
-        	} else {
-        		throw new Error('Invalid incomming message!');
-        	}
+            } else {
+                throw new Error('Invalid incomming message!');
+            }
         };
     };
 });

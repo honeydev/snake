@@ -50,6 +50,8 @@ require([
     'app/Views/HelloMessageDomSetter',
     'app/Views/MainPageCreator',
     'app/Views/MainPageDomSetter',
+    'app/Views/HelloMessageStatmentSetter',
+    'app/Views/MainPageStatmentSetter',
     'app/Handlers/Handler'
     ], function(
         Observable,
@@ -70,6 +72,8 @@ require([
         HelloMessageDomSetter,
         MainPageCreator,
         MainPageDomSetter,
+        HelloMessageStatmentSetter,
+        MainPageStatmentSetter,
         Handler
         ) {
 
@@ -94,7 +98,11 @@ require([
             new MainPageDomSetter()
             );
 
-        let statmentSetter = new StatmentSetter(pageView);
+        let statmentSetter = new StatmentSetter(
+            pageView,
+            HelloMessageStatmentSetter,
+            MainPageStatmentSetter
+            );
 
         mainProcessorObservable.addSubscriber(statmentSetter);
 
@@ -105,4 +113,11 @@ require([
 
         let handler = new Handler(controller, pageView);
 
+        mainProcessor.runSnake();
+        mainProcessor.doStep();
+        mainProcessor.doStep();
+        mainProcessor.doStep('right');
+        mainProcessor.doStep('down');
+        mainProcessor.doStep('left');
+        mainProcessor.doStep('up');
 });
