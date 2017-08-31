@@ -1,4 +1,4 @@
-/** 
+/**
  * @class realize pattern Observable
  */
 
