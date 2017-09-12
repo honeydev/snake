@@ -4,68 +4,61 @@ define(['app/Models/BaseModel'], function(BaseModel) {
 
     return class MainProcessor extends BaseModel {
          
-        constructor(observable, cell, snake, SnakePart, deck, moveStrategy) {
+        constructor(container, observable) {
             super();
+            this._container = container;
             this._observable = observable;
-            this._cell = cell;
-            this._snake = snake;
-            this._SnakePart = SnakePart;
-            this._deck = deck;
-            this._moveStrategy = moveStrategy;
-            //this.doStep(snake = this._snake, 'right');
+            this._snake = container.getDependency('Snake', container);
+            console.log(this._snake);
+            this._deck = container.getDependency('Deck', container);
+            //sthis._moveStrategy = container.getDependency('MoveStrategy', container);
+            console.log(this._moveStrategy);
+
+            this._timer = container.getDependency('Timer', this._observable);
+            this._foodProcessor = container.getDependency(
+                'FoodProcessor', 
+                container,
+                this._deck,
+                this._snake,
+                this._observable
+                );
+            this._stepProcessor = container.getDependency(
+                'StepProcessor',
+                this._container, 
+                this._deck, 
+                this._snake, 
+                this._observable,
+                this._foodProcessor
+                );
+
         };
 
-        runSnake(
-            snake = this._snake, 
-            SnakePart = this._SnakePart, 
-            deck = this._deck
-            ) {
+        initSnake() {
             //add two first parts of snake
-            let snakeHead = new SnakePart(null);
-            let snakePart = new SnakePart(snakeHead);
+            let snakeHead = this._container.getDependency('SnakePart', this._container, null);
+            let snakePart = this._container.getDependency('SnakePart', this._container, snakeHead);
             snakeHead.setCoordinates([6, 7]);
             snakePart.setCoordinates([7, 7]);
-            deck.changeDeckCell(snakeHead);  
-            deck.changeDeckCell(snakePart);
-            snake.addSnakePart(snakeHead);
-            snake.addSnakePart(snakePart);
-            console.log('send message');
+            this._deck.changeDeckCell(snakeHead);  
+            this._deck.changeDeckCell(snakePart);
+            this._snake.addSnakePart(snakeHead);
+            this._snake.addSnakePart(snakePart);
+            this._foodProcessor.generateFood();
             this._observable.sendMessage({
                 higlightCells: [snakeHead.getCoordinates(), snakePart.getCoordinates()]
             });
         };
 
-        /**
-         * @var direction string set snake dirrection
-         */
-        doStep(
-            newDirection, 
-            snake = this._snake, 
-            moveStrategy = this._moveStrategy, 
-            deck = this._deck
-            ) {
-            console.log(newDirection);
-            let currentDirection = snake.universalGetter('_direction');
-            let snakeHeadCoordinates = snake.getFirstSnakePart().getCoordinates();
-            console.log(currentDirection);
-            let newHeadCoordinates = moveStrategy.getHeadCoordinates(currentDirection, snakeHeadCoordinates, newDirection);
-            console.log(newHeadCoordinates);
-            snake.refreshSnakeStatment(newHeadCoordinates);
-            deck.synchronizeDeckAndSnake(snake.getAllSnakeParts());
-
-            let snakeCoordinates = snake.universalGetter('_snake');
-            let lastSnakePart = snakeCoordinates[snakeCoordinates.length - 1].getOldCoordinates();
-            
-            this._observable.sendMessage({
-                higlightCells: [newHeadCoordinates]
-            });
-            this._observable.sendMessage({
-                unHiglightCells: [lastSnakePart]
-            });
+        moveSnake() {
+            this._moveLoopId = setTimeout(function() {
+                this._stepProcessor.doStep();
+                this.moveSnake();
+            }.bind(this), 500);
         };
 
-        movment() {
-            
+        stopSnake() {
+            console.log(this._moveLoopId);
+            clearTimeout(this._moveLoopId);
         };
     };  
 });

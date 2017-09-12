@@ -24,15 +24,18 @@
             });
 
             mainPageElements.playButton = $('<button>').attr({
-                    class: "col-xs-4 col-xs-offset-2"
+                    class: "col-xs-4 col-xs-offset-2",
+                    id: "playButton"
             }).text('1');
 
             mainPageElements.pauseButton = $('<button>').attr({
-                class: "col-xs-4 col-xs-offset-1"
+                class: "col-xs-4 col-xs-offset-2",
+                id: "pauseButton"
             }).text('2');
 
             mainPageElements.replayButton = $('<button>').attr({
-                class: "col-xs-4 col-xs-offset-1"
+                class: "col-xs-4 col-xs-offset-1",
+                id: "replayButton"
             }).text('0');       
         };
 
@@ -52,7 +55,8 @@
 
             mainPageElements.upArrowImg = $('<img>').attr({
                 src: "template/img/up-arrow.svg",
-                class: "col-xs-4 col-xs-offset-4"
+                class: "col-xs-4 col-xs-offset-4",
+                id: "upArrow"
             });
             /* left right arrows */
             mainPageElements.leftRightRow = $('<div>').attr({
@@ -65,12 +69,14 @@
 
             mainPageElements.leftArrowImg = $('<img>').attr({
                 class: "col-xs-4 col-xs-offset-1",
-                src: "template/img/left-arrow.svg"
+                src: "template/img/left-arrow.svg",
+                id: "leftArrow"
             });
 
             mainPageElements.rightArrowImg = $('<img>').attr({
                 class: "col-xs-4 col-xs-offset-2",
-                src: "template/img/right-arrow.svg"
+                src: "template/img/right-arrow.svg",
+                id: "rightArrow"
             });
             /* create down arrow */
             mainPageElements.downRow = $('<div>').attr({
@@ -83,7 +89,8 @@
 
             mainPageElements.downArrowImg = $('<img>').attr({
                 class: "col-xs-4 col-xs-offset-4",
-                src: "template/img/down-arrow.svg"
+                src: "template/img/down-arrow.svg",
+                id: "downArrow"
             });
         };
 

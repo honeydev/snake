@@ -10,8 +10,9 @@ define(function() {
 
     return class Cell {
 
-        constructor() {
+        constructor(container) {
             this._currentCoordinates = [];
+            this._coordinatesValidator = container.getDependency('CoordinatesValidator');
         };
         /** @return {array} copy of this._cuurentCoordinates */
         getCoordinates() {
@@ -28,16 +29,14 @@ define(function() {
              * @return {boolean} true or false
              */
             let checkCoordinates = function(coordinates) {
-
-                if (!Array.isArray(coordinates)) return false;
-                if (coordinates.length > 2) return false;
-
-                for (let i = 0; i < coordinates; i++) {
-                    if (!Number.isInteger(coordinates[i])) return false;
+                try {
+                    this._coordinatesValidator.checkCoordinates(coordinates);
+                    return true;
+                } catch (Error) {
+                    console.log(Error);
+                    return false
                 }
-                // if array length > 2, it's invalid coordinates array
-                return true;
-            };
+            }.bind(this);
 
             if (!checkCoordinates(newCoordinates)) return false;
             this._currentCoordinates = newCoordinates;

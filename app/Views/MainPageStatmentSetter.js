@@ -1,30 +1,50 @@
-define(function() {
+define(function(StatmentSetter) {
 
     'use strict';
 
     return class MainPageStatmentSetter {
-		
-        constructor(deckElements) {
-            this._deckElements = deckElements;
+        
+        constructor(container) {
+            this._pageView = container.getDependency('PageView', container);
+            this._messageProcessor = container.getDependency('MainPageStatmentSetterMessageProcessor', this);
+            let mainPageElements = this._pageView.universalGetter('_mainPageElements');
+            let gameDeck = this._pageView.universalGetter('_gameDeck');
+            this._viewMode = '';
+            this._cellColorizer = container.getDependency('CellColorizer', gameDeck);
+            this._concretElementsSetter = container.getDependency('MainPageConcretElementsSetter', mainPageElements);
+            console.log('MainPageStatmentSetter successfull');
         };
 
-        higlihtCells(coordinates) {
-            console.log(coordinates);
-            for (let i = 0; i < coordinates.length; i++) {
-                let yCoordiante = coordinates[i][0];
-                let xCoordinate = coordinates[i][1];
-                console.log(this._deckElements[yCoordiante][xCoordinate]);
-                $(this._deckElements[yCoordiante][xCoordinate]).css('background-color', 'green');
+        _setPlayStatment() {
+            this._concretElementsSetter.setPauseButton();
+        };
+
+        _setPauseStatment() {
+            this._concretElementsSetter.setPlayButton();
+        };
+
+        changeViewMode(newViewMode) {
+            this._viewMode = newViewMode;
+            this._acceptViewMode(newViewMode);
+        };
+
+        _acceptViewMode(viewMode) {
+            if (viewMode === 'play') {
+                console.log('set play mode');
+                this._setPlayStatment();
+            } else if (viewMode === 'pause') {
+                console.log('set pause mode');
+                this._setPauseStatment();
             }
         };
 
-        unHiglightCells(coordinates) {
-            console.log(coordinates);
-            for (let i = 0; i < coordinates.length; i++) {
-                let yCoordiante = coordinates[i][0];
-                let xCoordinate = coordinates[i][1];
-                console.log(this._deckElements[yCoordiante][xCoordinate]);
-                $(this._deckElements[yCoordiante][xCoordinate]).css('background-color', 'blue');
+        processMessage(incommingMessage) {
+
+            for (let concretMessage in incommingMessage) {
+                this._messageProcessor._processConcretMessage(
+                    incommingMessage[concretMessage], 
+                    concretMessage
+                    );
             }
         };
     };

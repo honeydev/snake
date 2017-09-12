@@ -5,16 +5,32 @@
  * @property {array} _deck 2-d array, contain Cell and SnakeParts objects.
  * First array index - y coordinate on deck, second - x coordinate.
  */
-define(['app/Models/BaseModel'], function(BaseModel, Cell, config) {
+define(['app/Models/BaseModel'], function(BaseModel) {
+    
     'use strict';
 
     return class Deck extends BaseModel {
         /** @constructor set properties, generate deck */
-        constructor(Cell, config) {
+        constructor(container) {
             super();
-            this._Cell = Cell;
-            this._config = config;
-            this._deck = this._generateDeck(this._Cell, this._config.deckRowSize);
+            this._container = container;
+            this._config = container.getDependency('config');
+            console.log(this._config);
+            this._deck = this._generateDeck(this._config.deckRowSize);
+            this._foodPart = null;
+            console.log(this._deck);
+        };
+
+        setFoodPart(foodPart) {
+            if (this._foodPart !== null) {
+                delete this._foodPart;
+            }
+            this.changeDeckCell(foodPart);
+            this._foodPart = foodPart;
+        };
+
+        getFoodPart() {
+            return this._foodPart;
         };
         /**
          * @method _generateDeck create deck arrray, fill it Cell objects
@@ -22,39 +38,58 @@ define(['app/Models/BaseModel'], function(BaseModel, Cell, config) {
          * @rowSize {number} rowSize deck row size
          * @return {array} deck array
          */
-        _generateDeck(Cell, rowSize) {
-            //deck is square
+        _generateDeck(rowSize) {
+
             let deck = [];
-            //generate deck
-            for (let i = 0; i < rowSize; i++) {
-                //generate single row
-                deck.push((function(rowSize, Cell) {
-                    let deckRow = [];
 
-                    for (let y = 0; y < rowSize; y++) {
-                        let cell = new Cell();
-                        cell.setCoordinates([i, y]);
-                        deckRow.push(cell);
-                    }
+            let createDeckRows = function() {
 
-                    return deckRow;
-                })(rowSize, Cell));
-            }
+                for (let y = 0; y < rowSize; y++) {
+                    deck.push([]);
+                    fillDeckRow(y)
+                }
+
+            }.bind(this);
+
+            let fillDeckRow = function(rowIndex) {
+
+                for (let x = 0; x < rowSize; x++) {
+                    let cell = this._container.getDependency('Cell', this._container);
+                    cell.setCoordinates([rowIndex, x]);
+                    deck[rowIndex].push(cell);
+                }
+
+            }.bind(this);
+
+            createDeckRows();
 
             return deck;
         };
-        /**
-         * @
-         *
-         */
-        synchronizeDeckAndSnake(snake, Cell = this._Cell, deck = this._deck) {
-        
+
+        synchronizeDeckAndSnake(snake) {
+            // console.log(snake);
+            // for (let i = 0; i < snake.length; i++) {
+            //     let snakePartCoordinates = snake[i].getCoordinates();
+            //     let oldSnakePartCoordinates = snake[i].getOldCoordinates();
+            //     this._deck[snakePartCoordinates[0]][snakePartCoordinates[1]] = snake[i];
+            //     let cell = this._container.getDependency('Cell', this._container);
+            //     console.log(this._deck);
+            //     cell.setCoordinates(oldSnakePartCoordinates);
+            //     this.changeDeckCell(cell);
+            // }
 
             for (let i = 0; i < snake.length; i++) {
                 let snakePartCoordinates = snake[i].getCoordinates();
+                this._deck[snakePartCoordinates[0]][snakePartCoordinates[1]] = snake[i];
+                if (i != snake.legnth - 1) {
+                    continue;
+                }
                 let oldSnakePartCoordinates = snake[i].getOldCoordinates();
-                deck[snakePartCoordinates[0]][snakePartCoordinates[1]] = snake[i];
-                let cell = new Cell();
+                if (oldSnakePartCoordinates === null) {
+                    continue;
+                }
+                let cell = this._container.getDependency('Cell', this._container);
+                console.log(oldSnakePartCoordinates);
                 cell.setCoordinates(oldSnakePartCoordinates);
                 this.changeDeckCell(cell);
             }

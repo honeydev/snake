@@ -4,24 +4,22 @@ define(['tests/BaseTest'], function(BaseTest) {
     
     return class DeckTest extends BaseTest {
 
-        constructor(mocha, chai, deck, config) {
-            super(mocha, chai);
-            this._deck = deck;
-            this._config = config;
+        constructor(container) {
+            super(container);
+            this._deck = container.getDependency('Deck', container);
+            this._config = container.getDependency('config');
         };
 
-        test(
-            mocha = this._mocha, 
-            chai = this._chai, 
-            deck = this._deck,
-            expectedRowLength = this._config.deckRowSize
-            ) {
+        test() {
+            this._testDeckLength();
+        };
+
+        _testDeckLength() {
 
             let assert = this._chai.assert;
-            this._testDeckLength(assert, deck, expectedRowLength);
-        };
+            let deck = this._deck;
+            let expectedRowLength = this._config.deckRowSize;
 
-        _testDeckLength(assert, deck, expectedRowLength) {
             describe('deck._deck', function() {
                     it(`Deck is array. 
                 As default deck must contain ${expectedRowLength} arrays, each array

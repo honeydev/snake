@@ -7,7 +7,6 @@
  * @property {array} _gameDeck - 2d array contain deck elements for easy manipulation with DOM objects
  * from outer code. Structure of this array identical deck @propert of Deck @class
  */
-
 define(function() {
 
     'use strict';
@@ -16,27 +15,23 @@ define(function() {
         /**
          * @constructor set object properties, init page render
          */       
-        constructor(
-            config, 
-            helloMessageCreator,
-            helloMessageDomSetter,
-            mainPageCreator, 
-            mainPageDomSetter,
-            ) {
+        constructor(container) {
+            this._config = container.getDependency('config');
             /* add creators */
-            this._helloMessageCreator = helloMessageCreator;
-            this._mainPageCreator = mainPageCreator;
-            this._helloMessageCreator = helloMessageCreator;
-            this._helloMessageDomSetter = helloMessageDomSetter;
+            this._helloMessageCreator = container.getDependency('HelloMessageCreator');
+            this._mainPageCreator = container.getDependency('MainPageCreator');
+            console.log(this._mainPageCreator);
+            /* add dom setters */
+            this._helloMessageDomSetter = container.getDependency('HelloMessageDomSetter');
+            this._mainPageDomSetter = container.getDependency('MainPageDomSetter');
             /* generate elements */
             this._helloMessageElements = {};
             this._mainPageElements = {};
             this._gameDeck = [];
-            this._mainPageCreator = mainPageCreator;
-            this._mainPageDomSetter = mainPageDomSetter;
+
             this._prepareGameDeck(
                 this._mainPageElements, 
-                config.deckRowSize,
+                this._config.deckRowSize,
                 this._mainPageCreator
                 );
             /* render on page */
@@ -45,6 +40,7 @@ define(function() {
                 this._helloMessageCreator, 
                 this._helloMessageDomSetter
                 );
+
             this._renderMain(
                 this._mainPageElements, 
                 this._helloMessageElements.helloMessageContainer,
@@ -53,9 +49,10 @@ define(function() {
                 this._mainPageDomSetter
                 );
         };
-        _prepareGameDeck(mainPageElements, deckRowSize, mainPageCreator) {
-            this._gameDeck = this._createDeck(deckRowSize);
-            mainPageElements.deckElementsThree = mainPageCreator.createDeckThree(this._gameDeck);
+        
+        _prepareGameDeck() {
+            this._gameDeck = this._createDeck(this._config.deckRowSize);
+            this._mainPageElements.deckElementsThree = this._mainPageCreator.createDeckThree(this._gameDeck);
         };
         /**
          * @method _renderHelloMessage create hello message elements and add his on page

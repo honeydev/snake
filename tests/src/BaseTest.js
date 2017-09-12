@@ -4,8 +4,8 @@ define(['mocha', 'chai'], function(mocha, chai) {
 
     return class BaseTest {
 
-        constructor(mocha, chai) {
-            this._mocha = mocha;
+        constructor(container) {
+            this._mocha = container.getDependency('mocha');
             this._chai = chai;
             this._mocha.setup('bdd');
         };

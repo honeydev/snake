@@ -4,17 +4,66 @@ define(function() {
 
     return class Handler {
 
-        constructor(controller, pageView) {
-            this._controller = controller;
-            this._helloMessageElements = pageView.universalGetter('_helloMessageElements');
-            this._mainPageElements = pageView.universalGetter('_mainPageElements');
-            this._helloMessageButton(this._controller);
+        constructor(controller) {
+            this._helloMessageButton(controller);
+            this._playButton(controller);
+            this._replayButton(controller);
+            this._leftArrow(controller);
+            this._upArrow(controller);
+            this._rightArrow(controller);
+            this._downArrow(controller);
             //console.log(this._controller, this._helloMessageElements, this._mainPageElements);
         };
 
         _helloMessageButton(controller) {
             $('#lpButton').click(function() {
-                controller.run();
+                controller.init();
+            });
+        };
+
+        _playButton(controller) {
+            $('#playButton').click(function() {
+                controller.play();
+
+                this._pauseButton(controller);
+            }.bind(this));
+        };
+
+        _pauseButton(controller) {
+            $('#pauseButton').click(function() {
+                console.log('pause');
+                controller.pause();
+                this._playButton(controller);
+            }.bind(this));
+        };
+
+        _replayButton(controller) {
+            $('#replayButton').click(function() {
+                controller.replay();
+            });
+        };
+
+        _leftArrow(controller) {
+            $('#leftArrow').click(function() {
+                controller.changeDirection('left');
+            });
+        };
+
+        _upArrow(controller) {
+            $('#upArrow').click(function() {
+                controller.changeDirection('up');
+            });
+        };
+
+        _rightArrow(controller) {
+            $('#rightArrow').click(function() {
+                controller.changeDirection('right');
+            });
+        };        
+
+        _downArrow(controller) {
+            $('#downArrow').click(function() {
+                controller.changeDirection('down');
             });
         };
     };

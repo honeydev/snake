@@ -4,20 +4,22 @@ define(['tests/BaseTest'], function(BaseTest) {
 
     return class CellTest extends BaseTest {
 
-        constructor(mocha, chai, cell, config) {
+        constructor(container) {
 
-            super(mocha, chai);
-            this._cell = cell;
-            this._config = config;
-            this._mocha.setup('bdd');  
+            super(container);
+            this._cell = container.getDependency('Cell', container);
+            this._config = container.getDependency('config');
         };
 
         test() {
-            this._testSetter(this._chai.assert, this._cell);
+            this._testSetter();
 		    this._mocha.run();
 		};
 
-		_testSetter(assert, cell, deckSize = this._config.deckRowSize) {
+		_testSetter() {
+
+            let assert = this._chai.assert;
+            let cell = this._cell;
 
             describe("this._cell.setCoordinates", function() {
                 it("set Cell correct coordinates on deck", function() {

@@ -34,9 +34,11 @@ require(['../app/bootstrapcss'], function(bootstrapcss) {
 require([
     'app/Models/Observable',
     'app/Controller',
+    'app/Models/Timer',
     'app/Models/Deck', 
     'app/Models/Cell',
     'app/Models/Snake',
+    'app/Validators/SnakeValidator',
     'app/Models/SnakePart',
     'app/Models/BaseModel',
     'app/Models/MainProcessor',
@@ -52,13 +54,17 @@ require([
     'app/Views/MainPageDomSetter',
     'app/Views/HelloMessageStatmentSetter',
     'app/Views/MainPageStatmentSetter',
+    'app/Views/MainPageConcretElementsSetter',
+    'app/Views/CellColorizer',
     'app/Handlers/Handler'
     ], function(
         Observable,
         Controller,
+        Timer,
         Deck, 
         Cell, 
-        Snake, 
+        Snake,
+        SnakeValidator, 
         SnakePart, 
         BaseModel, 
         MainProcessor,
@@ -74,6 +80,8 @@ require([
         MainPageDomSetter,
         HelloMessageStatmentSetter,
         MainPageStatmentSetter,
+        MainPageConcretElementSetter,
+        CellColorizer,
         Handler
         ) {
 
@@ -81,13 +89,16 @@ require([
 
         let mainProcessorObservable = new Observable();
 
+        let snake = new Snake(new SnakeValidator);
+
         let mainProcessor = new MainProcessor(
             mainProcessorObservable,
             new Cell(),
-            new Snake(),
+            snake,
             SnakePart,
             deck,
-            new MoveStrategy()
+            new MoveStrategy(config),
+            Timer
             );
 
         let pageView = new PageView(
@@ -98,26 +109,23 @@ require([
             new MainPageDomSetter()
             );
 
-        let statmentSetter = new StatmentSetter(
+        let mainPageStatmentSetter = new MainPageStatmentSetter(
+            CellColorizer,
             pageView,
-            HelloMessageStatmentSetter,
-            MainPageStatmentSetter
+            MainPageConcretElementSetter
             );
 
-        mainProcessorObservable.addSubscriber(statmentSetter);
+        mainProcessorObservable.addSubscriber(mainPageStatmentSetter);
 
         let controller = new Controller(
             mainProcessor,
-            statmentSetter
+            mainPageStatmentSetter,
+            snake
             );
 
         let handler = new Handler(controller, pageView);
 
-        mainProcessor.runSnake();
-        mainProcessor.doStep();
-        mainProcessor.doStep();
-        mainProcessor.doStep('right');
-        mainProcessor.doStep('down');
-        mainProcessor.doStep('left');
-        mainProcessor.doStep('up');
+
+        // mainProcessor.doStep('left');
+        // mainProcessor.doStep('up');
 });
