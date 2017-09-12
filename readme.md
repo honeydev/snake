@@ -1,2 +1,2 @@
-'Snake - simple classic game'
+*Snake - simple classic game*
 
