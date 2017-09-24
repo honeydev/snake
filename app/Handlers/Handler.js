@@ -12,6 +12,7 @@ define(function() {
             this._upArrow(controller);
             this._rightArrow(controller);
             this._downArrow(controller);
+            this._gameOverModal(controller);
             //console.log(this._controller, this._helloMessageElements, this._mainPageElements);
         };
 
@@ -24,7 +25,6 @@ define(function() {
         _playButton(controller) {
             $('#playButton').click(function() {
                 controller.play();
-
                 this._pauseButton(controller);
             }.bind(this));
         };
@@ -33,6 +33,7 @@ define(function() {
             $('#pauseButton').click(function() {
                 console.log('pause');
                 controller.pause();
+                console.log(this);
                 this._playButton(controller);
             }.bind(this));
         };
@@ -40,7 +41,8 @@ define(function() {
         _replayButton(controller) {
             $('#replayButton').click(function() {
                 controller.replay();
-            });
+                this._playButton(controller);
+            }.bind(this));
         };
 
         _leftArrow(controller) {
@@ -66,5 +68,11 @@ define(function() {
                 controller.changeDirection('down');
             });
         };
-    };
+
+        _gameOverModal(controller) {
+            $('#gameOverModal').on('hidden.bs.modal', function(e) {
+                controller.replay();
+            });
+        };    
+    }; 
 });

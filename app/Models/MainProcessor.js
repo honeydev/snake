@@ -8,12 +8,9 @@ define(['app/Models/BaseModel'], function(BaseModel) {
             super();
             this._container = container;
             this._observable = observable;
-            this._snake = container.getDependency('Snake', container);
-            console.log(this._snake);
+            this._snake = container.getDependency('Snake');
             this._deck = container.getDependency('Deck', container);
             //sthis._moveStrategy = container.getDependency('MoveStrategy', container);
-            console.log(this._moveStrategy);
-
             this._timer = container.getDependency('Timer', this._observable);
             this._foodProcessor = container.getDependency(
                 'FoodProcessor', 
@@ -22,15 +19,25 @@ define(['app/Models/BaseModel'], function(BaseModel) {
                 this._snake,
                 this._observable
                 );
+
+            this._temp = container.getDependency('Temp', this._observable);
             this._stepProcessor = container.getDependency(
                 'StepProcessor',
                 this._container, 
                 this._deck, 
                 this._snake, 
                 this._observable,
-                this._foodProcessor
+                this._foodProcessor,
+                this._temp
+                );
+            this._gameOver = container.getDependency(
+                'GameOver',
+                container, 
+                this, 
+                this._observable
                 );
 
+            this._deviceDetector = container.getDependency('DeviceDetector', this._observable);
         };
 
         initSnake() {
@@ -43,22 +50,39 @@ define(['app/Models/BaseModel'], function(BaseModel) {
             this._deck.changeDeckCell(snakePart);
             this._snake.addSnakePart(snakeHead);
             this._snake.addSnakePart(snakePart);
-            this._foodProcessor.generateFood();
+            this._foodProcessor.generateFood(); 
             this._observable.sendMessage({
                 higlightCells: [snakeHead.getCoordinates(), snakePart.getCoordinates()]
             });
         };
 
         moveSnake() {
-            this._moveLoopId = setTimeout(function() {
+            this._timer.runTimer();
+            setTimeout(function loop() {
                 this._stepProcessor.doStep();
-                this.moveSnake();
+                let temp = this._temp.getTemp();
+                if (this._gameOver.checkForGameOver()) {
+                    return false;
+                }
+                this._moveLoopId = setTimeout(loop.bind(this), 500);
             }.bind(this), 500);
         };
 
         stopSnake() {
-            console.log(this._moveLoopId);
             clearTimeout(this._moveLoopId);
+            this._timer.stopTimer();
+        };
+
+        destroyGame() {
+            this.stopSnake();
+            let snakePartCoordinates = this._snake.getAllSnakePartsCoordinates();
+            let snakeFoodCoordinates = this._foodProcessor.universalGetter('_foodPart').getCoordinates();
+            let coordinatesCellsForUnhiglight = snakePartCoordinates;
+            coordinatesCellsForUnhiglight.push(snakeFoodCoordinates);
+            this._observable.sendMessage({
+                unHiglightCells: snakePartCoordinates   
+            });
+            this._deleteAllProperties();
         };
     };  
 });

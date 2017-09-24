@@ -20,6 +20,7 @@ define(function() {
             /* add creators */
             this._helloMessageCreator = container.getDependency('HelloMessageCreator');
             this._mainPageCreator = container.getDependency('MainPageCreator');
+            this._gameOverModalCreator = container.getDependency('GameOverModalCreator');
             console.log(this._mainPageCreator);
             /* add dom setters */
             this._helloMessageDomSetter = container.getDependency('HelloMessageDomSetter');
@@ -27,6 +28,7 @@ define(function() {
             /* generate elements */
             this._helloMessageElements = {};
             this._mainPageElements = {};
+            this._modalWindows = {};
             this._gameDeck = [];
 
             this._prepareGameDeck(
@@ -48,6 +50,10 @@ define(function() {
                 this._mainPageCreator,
                 this._mainPageDomSetter
                 );
+
+            this._renderModalWindows();
+
+            this._pageCorrector = container.getDependency('PageCorrector', container, this._mainPageElements);
         };
         
         _prepareGameDeck() {
@@ -104,6 +110,27 @@ define(function() {
             
             createMainPageElements(mainPageElements, previousDomObject);
             addMainPageElementsOnPage(mainPageElements, previousDomObject);
+        };
+
+        _renderModalWindows() {
+            let createGOModalWindow = function() {
+                this._gameOverModalCreator.createGOContainer(this._modalWindows);
+                this._gameOverModalCreator.createGOWrap(this._modalWindows);
+                this._gameOverModalCreator.createGOContent(this._modalWindows);
+            }.bind(this);
+
+            let addGOModalWindw = function() {
+                console.log(this._modalWindows.gameOverContainer);
+                $(this._modalWindows.gameOverContainer).
+                    appendTo('body');
+                $(this._modalWindows.gameOverWrap).
+                    appendTo(this._modalWindows.gameOverContainer);
+                $(this._modalWindows.GOContent).
+                    appendTo(this._modalWindows.gameOverWrap);
+            }.bind(this);
+
+            createGOModalWindow();
+            addGOModalWindw();
         };
         /** 
          * @method render game field. 

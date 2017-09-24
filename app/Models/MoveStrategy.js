@@ -22,7 +22,6 @@ define(function() {
 
             this._checkSnakeHeadCoordinates(snakeHeadCoordinates);
 
-            console.log(direction);
             if (direction === 'left') {
                 return this._getLeftStepCoordinates(snakeHeadCoordinates);
             } else if (direction === 'up') {
@@ -51,7 +50,6 @@ define(function() {
          * @return {array} snakeHeadCoordinates
          */
         _getLeftStepCoordinates(snakeHeadCoordinates) {
-            console.log('config', this.config);
             if (snakeHeadCoordinates[1] === 0) {
                 snakeHeadCoordinates[1] = this._config.deckRowSize;
             }

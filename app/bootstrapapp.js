@@ -8,6 +8,8 @@ define(function() {
         Controller,
         BaseModel,
         Timer,
+        ScoresCounter,
+        Temp,
         Deck, 
         Cell,
         FoodPart,
@@ -20,9 +22,12 @@ define(function() {
         MainProcessor,
         StepProcessor,
         MoveStrategy,
+        GameOver,
+        GameOverStrategy,
         config,
         PageView,
         HelloMessageCreator,
+        GameOverModalCreator,
         HelloMessageDomSetter,
         MainPageCreator,
         MainPageDomSetter,
@@ -31,6 +36,11 @@ define(function() {
         MainPageStatmentSetterMessageProcessor,
         MainPageConcretElementsSetter,
         CellColorizer,
+        CellResizer,
+        ButtonResizer,
+        ButtonCorrector,
+        PageCorrector,
+        DeviceDetector,
         Handler
         ) {
         container.addDependency('Observable', function(args) {
@@ -43,6 +53,14 @@ define(function() {
 
         container.addDependency('Timer', function(args) {
             return new Timer(...args);
+        });
+
+        container.addDependency('ScoresCounter', function(args) {
+            return new ScoresCounter(...args);
+        });
+
+        container.addDependency('Temp', function(args) {
+            return new Temp(...args);
         });
 
         container.addDependency('Deck', function(args) {
@@ -94,12 +112,19 @@ define(function() {
             return new MoveStrategy(...args);
         });
 
+        container.addDependency('GameOver', function(args) {
+            return new GameOver(...args);
+        });
+
+        container.addDependency('GameOverStrategy', function(args) {
+            return new GameOverStrategy(...args);
+        });
+
         container.addDependency('SnakeValidator', function(args) {
             return new SnakeValidator(...args);
         });
-        console.log('config', config);
+        
         container.addDependency('config', function() {
-            console.log('config', config);
             return config;
         });
 
@@ -113,6 +138,10 @@ define(function() {
 
         container.addDependency('HelloMessageCreator', function(args) {
             return new HelloMessageCreator(...args);
+        });
+
+        container.addDependency('GameOverModalCreator', function(args) {
+            return new GameOverModalCreator(...args);
         });
 
         container.addDependency('HelloMessageDomSetter', function(args) {
@@ -149,6 +178,26 @@ define(function() {
 
         container.addDependency('CellColorizer', function(args) {
             return new CellColorizer(...args);
+        });
+
+        container.addDependency('CellResizer', function(args) {
+            return new CellResizer(...args);
+        });
+
+        container.addDependency('ButtonResizer', function(args) {
+            return new ButtonResizer(...args);
+        });
+
+        container.addDependency('ButtonCorrector', function(args) {
+            return new ButtonCorrector(...args);
+        });
+
+        container.addDependency('PageCorrector', function(args) {
+            return new PageCorrector(...args);
+        });
+
+        container.addDependency('DeviceDetector', function(args) {
+            return new DeviceDetector(...args);
         });
 
         container.addDependency('Handler', function(args) {

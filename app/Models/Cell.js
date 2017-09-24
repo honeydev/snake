@@ -24,7 +24,8 @@ define(function() {
          * @return {boolean} true if new coordinate correct or false if not.
          */
         setCoordinates(newCoordinates) {
-            /** @function validate coordinates
+            /** 
+             * @function validate coordinates
              * @param {array} coordinates
              * @return {boolean} true or false
              */

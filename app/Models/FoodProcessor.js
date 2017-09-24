@@ -35,9 +35,9 @@ define(['app/Models/BaseModel'], function(BaseModel) {
             });
         };
 
-        snakeHeadAndSnakeFoodCoordinatesIsEqual() {
-            let snakeHeadCoordinates = this._snake.getFirstSnakePart().getCoordinates();
+        snakeHeadAndSnakeFoodCoordinatesIsEqual(snakeHeadCoordinates) {
             let foodPartCoordinates = this._foodPart.getCoordinates();
+           
             if (this._coordinatesIsEqual(snakeHeadCoordinates, foodPartCoordinates)) {
                 return true;
             }

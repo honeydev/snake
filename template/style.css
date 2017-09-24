@@ -15,8 +15,6 @@
     padding-top: 20%;
 }
 
-
-
 .helloMessage h1 {
     font-size: 36px;
     text-align: center;
@@ -37,7 +35,6 @@
 }
 
 main {
-    height: 100vh;
     background-color: #f2d70e;
 }
 
@@ -83,17 +80,16 @@ section.deck {
         font-size: 56px;
     }
 
-header .button {
-    margin-top: 30px;
-}
+    header .button {
+        margin-top: 30px;
+    }
 
-header .button button, 
-header .button button:focus,
-header .button button:active,
-header .button button:focus {
-    color: #9475d6;
-    background-color: #f2d70e;
-    font-size: 32px;
-}
-
+    header .button button, 
+    header .button button:focus,
+    header .button button:active,
+    header .button button:focus {
+        color: #9475d6;
+        background-color: #f2d70e;
+        font-size: 32px;
+    }
 }

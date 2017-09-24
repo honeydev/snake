@@ -9,30 +9,39 @@ define(function() {
             this._minutes = 0;
             this._seconds = 0;
             this._observable = observable;
+            this._observable.sendMessage({
+                timerStatment: this._getTimeStamp()
+            });
+        };
+
+        runTimer() {
+            this._timeLoop();
+        };
+
+        stopTimer() {
+            clearTimeout(this._timeLoopId);
         };
 
         _timeLoop() {
-            this._timeLoopId = setTimeout(function func() {
-                console.log('time step');
-                console.log(this);
+            setTimeout(function func() {
                 this._timeStep();
                 this._observable.sendMessage({
-                    timeStamp: this._getTimeStamp()
+                    timerStatment: this._getTimeStamp()
                 });
-                this._timeLoop();
-            }.bind(this), 100);
+                this._timeLoopId = setTimeout(func.bind(this), 500);
+            }.bind(this), 500);
         };
 
         _timeStep() {
 
             this._seconds++;
 
-            if (this._seconds === 60) {
+            if (this._seconds === 59) {
                 this._seconds = 0;
                 this._minutes++;
             }
 
-            if (this._minures === 60) {
+            if (this._minures === 59) {
                 this._minutes = 0;
                 this._hours++;
             }

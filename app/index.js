@@ -1,4 +1,7 @@
-
+/**
+ * @author Lebedev Alexey
+ * @license GPL v3.0
+ */
 requirejs.config({
     //By default load any module IDs from js/lib
     baseUrl: 'node_modules',
@@ -14,7 +17,8 @@ requirejs.config({
         bootstrap: 'bootstrap/dist/js/bootstrap',
         mocha: 'mocha/mocha',
         chai: 'chai/chai',
-        config: '..'
+        config: '..',
+        bootstrap: 'bootstrap/dist/js/bootstrap.min'
     },
     shim: {
         mocha: {
@@ -23,8 +27,13 @@ requirejs.config({
         chai: {
             exports: "chai"
         },
-        'bootstrap': ['jquery']
-    }
+        bootstrap: {
+            deps: ['jquery']
+        }
+    },
+    // paths: {
+    //     
+    // }
 });
 
 require(['../app/bootstrapcss'], function(bootstrapcss) {
@@ -32,49 +41,77 @@ require(['../app/bootstrapcss'], function(bootstrapcss) {
 });
 
 require([
+    'app/Container',
+    'app/bootstrapapp',
     'app/Models/Observable',
     'app/Controller',
+    'app/Models/BaseModel',
     'app/Models/Timer',
+    'app/Models/ScoresCounter',
+    'app/Models/Temp',
     'app/Models/Deck', 
     'app/Models/Cell',
+    'app/Models/FoodPart',
+    'app/Models/FoodGenerator',
+    'app/Models/FoodProcessor',
     'app/Models/Snake',
     'app/Validators/SnakeValidator',
+    'app/Validators/CoordinatesValidator',
     'app/Models/SnakePart',
-    'app/Models/BaseModel',
     'app/Models/MainProcessor',
+    'app/Models/StepProcessor',
     'app/Models/MoveStrategy',
+    'app/Models/GameOver',
+    'app/Models/GameOverStrategy',
     'config/config',
-    'jquery',
-    'bootstrap',
     'app/Views/PageView',
-    'app/Views/StatmentSetter',
-    'app/Views/HelloMessageCreator',
-    'app/Views/HelloMessageDomSetter',
-    'app/Views/MainPageCreator',
-    'app/Views/MainPageDomSetter',
-    'app/Views/HelloMessageStatmentSetter',
-    'app/Views/MainPageStatmentSetter',
-    'app/Views/MainPageConcretElementsSetter',
-    'app/Views/CellColorizer',
-    'app/Handlers/Handler'
-    ], function(
+    'app/Views/Creators/HelloMessageCreator',
+    'app/Views/Creators/GameOverModalCreator',
+    'app/Views/Setters/HelloMessageDomSetter',
+    'app/Views/Creators/MainPageCreator',
+    'app/Views/Setters/MainPageDomSetter',
+    'app/Views/Setters/HelloMessageStatmentSetter',
+    'app/Views/Setters/MainPageStatmentSetter',
+    'app/Views/MessageProcessors/MainPageStatmentSetterMessageProcessor',
+    'app/Views/Setters/MainPageConcretElementsSetter',
+    'app/Views/Customizators/CellColorizer',
+    'app/Views/Customizators/CellResizer',
+    'app/Views/Customizators/ButtonResizer',
+    'app/Views/Customizators/ButtonCorrector',
+    'app/Views/Customizators/PageCorrector',
+    'app/Views/DeviceDetector',
+    'app/Handlers/Handler',
+    'jquery',
+    'bootstrap'
+    ],
+    function(
+        Container, 
+        bootstrapapp,
         Observable,
         Controller,
+        BaseModel,
         Timer,
+        ScoresCounter,
+        Temp,
         Deck, 
-        Cell, 
+        Cell,
+        FoodPart,
+        FoodGenerator,
+        FoodProcessor,
         Snake,
-        SnakeValidator, 
+        SnakeValidator,
+        CoordinatesValidator,
         SnakePart, 
-        BaseModel, 
         MainProcessor,
+        StepProcessor,
         MoveStrategy,
+        GameOver,
+        GameOverStrategy,
         config,
-        jquery,
-        bootstrap,
         PageView,
         StatmentSetter,
         HelloMessageCreator,
+        GameOverModalCreator,
         HelloMessageDomSetter,
         MainPageCreator,
         MainPageDomSetter,
@@ -82,50 +119,60 @@ require([
         MainPageStatmentSetter,
         MainPageConcretElementSetter,
         CellColorizer,
-        Handler
+        CellResizer,
+        ButtonResizer,
+        ButtonCorrector,
+        PageCorrector,
+        DeviceDetector,
+        Handler,
+        jquery,
+        bootstrap
         ) {
 
-        let deck = new Deck(Cell, config);
+    let container = new Container();
+    console.log(bootstrap);
+    bootstrapapp(
+        container, 
+        Observable,
+        Controller,
+        BaseModel,
+        Timer,
+        ScoresCounter,
+        Temp,
+        Deck, 
+        Cell,
+        FoodPart,
+        FoodGenerator,
+        FoodProcessor,
+        Snake,
+        SnakeValidator,
+        CoordinatesValidator,
+        SnakePart, 
+        MainProcessor,
+        StepProcessor,
+        MoveStrategy,
+        GameOver,
+        GameOverStrategy,
+        config,
+        PageView,
+        StatmentSetter,
+        HelloMessageCreator,
+        GameOverModalCreator,
+        HelloMessageDomSetter,
+        MainPageCreator,
+        MainPageDomSetter,
+        HelloMessageStatmentSetter,
+        MainPageStatmentSetter,
+        MainPageConcretElementSetter,
+        CellColorizer,
+        CellResizer,
+        ButtonResizer,
+        ButtonCorrector,
+        PageCorrector,
+        DeviceDetector,
+        Handler
+        );
 
-        let mainProcessorObservable = new Observable();
-
-        let snake = new Snake(new SnakeValidator);
-
-        let mainProcessor = new MainProcessor(
-            mainProcessorObservable,
-            new Cell(),
-            snake,
-            SnakePart,
-            deck,
-            new MoveStrategy(config),
-            Timer
-            );
-
-        let pageView = new PageView(
-            config,
-            new HelloMessageCreator(),
-            new HelloMessageDomSetter(),
-            new MainPageCreator(),
-            new MainPageDomSetter()
-            );
-
-        let mainPageStatmentSetter = new MainPageStatmentSetter(
-            CellColorizer,
-            pageView,
-            MainPageConcretElementSetter
-            );
-
-        mainProcessorObservable.addSubscriber(mainPageStatmentSetter);
-
-        let controller = new Controller(
-            mainProcessor,
-            mainPageStatmentSetter,
-            snake
-            );
-
-        let handler = new Handler(controller, pageView);
-
-
-        // mainProcessor.doStep('left');
-        // mainProcessor.doStep('up');
+    let controller = new Controller(container);
+    let handler = new Handler(controller);
 });

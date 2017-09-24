@@ -5,14 +5,28 @@ define(function() {
     return class Controller {
 
         constructor(container) {
-            this._mainPageStatmentSetter = container.getDependency('MainPageStatmentSetter', container);
-            this._snake = container.getDependency('Snake', container, 'ziga');
-            let mainProcessorObservable = container.getDependency('Observable');
+            this._container = container;
+            this._mainPageStatmentSetter = this._container.getDependency(
+                'MainPageStatmentSetter', 
+                this._container
+                );
+            this._createMainProcessor();
+        };
+
+        _createMainProcessor() {
+            let mainProcessorObservable = this._container.getDependency('Observable');
+            this._snake = this._container.getDependency('Snake', this._container, mainProcessorObservable);
+            console.log('snake create again', this._snake);
             mainProcessorObservable.addSubscriber(this._mainPageStatmentSetter);
-            this._mainProcessor = container.getDependency('MainProcessor', container, mainProcessorObservable);
+            this._mainProcessor = this._container.getDependency(
+                'MainProcessor', 
+                this._container, 
+                mainProcessorObservable
+                );
         };
 
         init() {
+            console.log(this._snake);
             this._mainProcessor.initSnake();
             console.log('run app');
         };
@@ -24,13 +38,21 @@ define(function() {
         };
 
         pause() {
-            alert('pause');
+            console.log('pause');
             this._mainProcessor.stopSnake();
             this._mainPageStatmentSetter.changeViewMode('pause');
         };
 
         replay() {
             console.log('replay');
+            this._mainProcessor.destroyGame();
+            this._snake.deleteSnakeInstance();
+            this._mainPageStatmentSetter.changeViewMode('initialStatment');
+            delete this._mainProcessor;
+            delete this._snake;
+            console.log('snake after delete', this._snake);
+            this._createMainProcessor();
+            this.init();
         };
 
         changeDirection(direction) {

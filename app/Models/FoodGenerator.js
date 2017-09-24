@@ -15,6 +15,7 @@ define(function() {
         generateFoodPart() {
             let foodPart = this._container.getDependency('FoodPart', this._container);
             foodPart.setCoordinates(this._getNotOccupiedCoordinates());
+            //foodPart.setCoordinates([4,7]);
             return foodPart;
         };
 
@@ -31,12 +32,10 @@ define(function() {
 
         _getNotOccupiedCoordinates() {
             const occupiedCoordinates = this._getOccupiedCoordinates();
-            console.log(occupiedCoordinates);
             let generatedCoordinates;
 
             while (true) {
                 generatedCoordinates = this._generateCoordinates();
-                console.log(occupiedCoordinates, generatedCoordinates);
                 if (this._coordinatesIsNotOccupied(occupiedCoordinates, generatedCoordinates)) {
                     break;
                 }

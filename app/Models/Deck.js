@@ -1,9 +1,9 @@
 /**
  * @class Deck create and contain game deck, set deck statements
- * @property _Cell @constructor for create cell @object
  * @property {object} _config contain app settings
  * @property {array} _deck 2-d array, contain Cell and SnakeParts objects.
  * First array index - y coordinate on deck, second - x coordinate.
+ * @property {object}  [_foodPart] [food object theres one copy on board]
  */
 define(['app/Models/BaseModel'], function(BaseModel) {
     
@@ -15,20 +15,27 @@ define(['app/Models/BaseModel'], function(BaseModel) {
             super();
             this._container = container;
             this._config = container.getDependency('config');
-            console.log(this._config);
             this._deck = this._generateDeck(this._config.deckRowSize);
             this._foodPart = null;
-            console.log(this._deck);
         };
-
+        /**
+         * @method [setFoodPart  add foodPart object in properties, and add it 
+         * in deck array]
+         * @param {object} foodPart [FoodPart @class instance]
+         */
         setFoodPart(foodPart) {
+
             if (this._foodPart !== null) {
                 delete this._foodPart;
             }
+
             this.changeDeckCell(foodPart);
             this._foodPart = foodPart;
         };
-
+        /**
+         * @method  [getFoodPart get current FoodPart object]
+         * @return {[object]}
+         */
         getFoodPart() {
             return this._foodPart;
         };
@@ -41,42 +48,39 @@ define(['app/Models/BaseModel'], function(BaseModel) {
         _generateDeck(rowSize) {
 
             let deck = [];
+            /** @function [createDeckRows description] */
+            let createDeckRows = () => {
 
-            let createDeckRows = function() {
+                let rowIndex = 0;
 
-                for (let y = 0; y < rowSize; y++) {
+                for (rowIndex; rowIndex < rowSize; rowIndex++) {
                     deck.push([]);
-                    fillDeckRow(y)
+                    fillDeckRow(rowIndex);
                 }
+            };
+            /**
+             * @function fill _deck array objects of Cell @class
+             * @param  {[number]} rowIndex [index current row in 2-d array _deck]
+             */
+            let fillDeckRow = (rowIndex) => {
+                let columnIndex = 0;
 
-            }.bind(this);
-
-            let fillDeckRow = function(rowIndex) {
-
-                for (let x = 0; x < rowSize; x++) {
+                for (columnIndex; columnIndex < rowSize; columnIndex++) {
                     let cell = this._container.getDependency('Cell', this._container);
-                    cell.setCoordinates([rowIndex, x]);
+                    cell.setCoordinates([rowIndex, columnIndex]);
                     deck[rowIndex].push(cell);
                 }
-
-            }.bind(this);
+            };
 
             createDeckRows();
-
             return deck;
         };
-
+        /**
+         * @method [synchronizeDeckAndSnake ]
+         * @param  {[type]} snake [description]
+         * @return {[type]}       [description]
+         */
         synchronizeDeckAndSnake(snake) {
-            // console.log(snake);
-            // for (let i = 0; i < snake.length; i++) {
-            //     let snakePartCoordinates = snake[i].getCoordinates();
-            //     let oldSnakePartCoordinates = snake[i].getOldCoordinates();
-            //     this._deck[snakePartCoordinates[0]][snakePartCoordinates[1]] = snake[i];
-            //     let cell = this._container.getDependency('Cell', this._container);
-            //     console.log(this._deck);
-            //     cell.setCoordinates(oldSnakePartCoordinates);
-            //     this.changeDeckCell(cell);
-            // }
 
             for (let i = 0; i < snake.length; i++) {
                 let snakePartCoordinates = snake[i].getCoordinates();
@@ -89,7 +93,6 @@ define(['app/Models/BaseModel'], function(BaseModel) {
                     continue;
                 }
                 let cell = this._container.getDependency('Cell', this._container);
-                console.log(oldSnakePartCoordinates);
                 cell.setCoordinates(oldSnakePartCoordinates);
                 this.changeDeckCell(cell);
             }
@@ -103,7 +106,6 @@ define(['app/Models/BaseModel'], function(BaseModel) {
          * @return - new object type of Cell or SnakePart
          */
         changeDeckCell(newDeckPart) {
-            console.log(newDeckPart);
             let newPartCoordinates = newDeckPart.getCoordinates();
             this._deck[newPartCoordinates[0]][newPartCoordinates[1]] = newDeckPart;
             return true;

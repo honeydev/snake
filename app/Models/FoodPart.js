@@ -3,7 +3,7 @@ define(['app/Models/Cell'], function(Cell) {
     'use strict';
 
     return class FoodPart extends Cell {
-
+        
         constructor(container) {
         	super(container);
         };
