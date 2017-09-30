@@ -41,7 +41,7 @@ define(function() {
                 this._minutes++;
             }
 
-            if (this._minures === 59) {
+            if (this._minutes === 59) {
                 this._minutes = 0;
                 this._hours++;
             }
