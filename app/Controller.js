@@ -6,11 +6,9 @@ define(function() {
 
         constructor(container) {
             this._container = container;
-            this._mainPageStatmentSetter = this._container.getDependency(
-                'MainPageStatmentSetter', 
-                this._container
-                );
-            this._createMainProcessor();
+            //this._createMainProcessor();
+            this._mainView = container.getDependency('MainView', container);
+            console.log('sda')
         };
 
         _createMainProcessor() {

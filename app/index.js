@@ -18,7 +18,8 @@ requirejs.config({
         mocha: 'mocha/mocha',
         chai: 'chai/chai',
         config: '..',
-        bootstrap: 'bootstrap/dist/js/bootstrap.min'
+        bootstrap: 'bootstrap/dist/js/bootstrap.min',
+        paper: 'paper/dist/paper-full'
     },
     shim: {
         mocha: {
@@ -29,6 +30,9 @@ requirejs.config({
         },
         bootstrap: {
             deps: ['jquery']
+        },
+        paper: {
+            exports: "paper"
         }
     },
     // paths: {
@@ -64,25 +68,13 @@ require([
     'app/Models/GameOver',
     'app/Models/GameOverStrategy',
     'config/config',
-    'app/Views/PageView',
-    'app/Views/Creators/HelloMessageCreator',
-    'app/Views/Creators/GameOverModalCreator',
-    'app/Views/Setters/HelloMessageDomSetter',
-    'app/Views/Creators/MainPageCreator',
-    'app/Views/Setters/MainPageDomSetter',
-    'app/Views/Setters/HelloMessageStatmentSetter',
-    'app/Views/Setters/MainPageStatmentSetter',
-    'app/Views/MessageProcessors/MainPageStatmentSetterMessageProcessor',
-    'app/Views/Setters/MainPageConcretElementsSetter',
-    'app/Views/Customizators/CellColorizer',
-    'app/Views/Customizators/CellResizer',
-    'app/Views/Customizators/ButtonResizer',
-    'app/Views/Customizators/ButtonCorrector',
-    'app/Views/Customizators/PageCorrector',
-    'app/Views/DeviceDetector',
+    'app/Views/MainView',
+    'app/Views/GameDeckCreator',
+    'app/Views/CellCreator',
     'app/Handlers/Handler',
     'jquery',
-    'bootstrap'
+    'bootstrap',
+    'paper'
     ],
     function(
         Container, 
@@ -108,29 +100,16 @@ require([
         GameOver,
         GameOverStrategy,
         config,
-        PageView,
-        StatmentSetter,
-        HelloMessageCreator,
-        GameOverModalCreator,
-        HelloMessageDomSetter,
-        MainPageCreator,
-        MainPageDomSetter,
-        HelloMessageStatmentSetter,
-        MainPageStatmentSetter,
-        MainPageConcretElementSetter,
-        CellColorizer,
-        CellResizer,
-        ButtonResizer,
-        ButtonCorrector,
-        PageCorrector,
-        DeviceDetector,
+        MainView,
+        GameDeckCreator,
+        CellCreator,
         Handler,
         jquery,
-        bootstrap
+        bootstrap,
+        paper
         ) {
 
     let container = new Container();
-    console.log(bootstrap);
     bootstrapapp(
         container, 
         Observable,
@@ -154,25 +133,12 @@ require([
         GameOver,
         GameOverStrategy,
         config,
-        PageView,
-        StatmentSetter,
-        HelloMessageCreator,
-        GameOverModalCreator,
-        HelloMessageDomSetter,
-        MainPageCreator,
-        MainPageDomSetter,
-        HelloMessageStatmentSetter,
-        MainPageStatmentSetter,
-        MainPageConcretElementSetter,
-        CellColorizer,
-        CellResizer,
-        ButtonResizer,
-        ButtonCorrector,
-        PageCorrector,
-        DeviceDetector,
+        MainView,
+        CellCreator,
+        GameDeckCreator,
         Handler
         );
 
     let controller = new Controller(container);
-    let handler = new Handler(controller);
+    //let handler = new Handler(controller);
 });

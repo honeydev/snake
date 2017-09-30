@@ -1,2 +1,3 @@
 node_modules/*
 serverstart.py
+app/oldViews/

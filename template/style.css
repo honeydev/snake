@@ -6,6 +6,9 @@
     font-family: Guifix; 
     src: url(fonts/Guifx.ttf); 
 }
+#gameDeck {
+   height: 50vh;
+}
 
 .helloMessage  {
     position: relative;
