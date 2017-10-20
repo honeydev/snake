@@ -16,6 +16,7 @@ define(function() {
         FoodGenerator,
         FoodProcessor,
         Snake,
+        SnakeCreator,
         SnakeValidator,
         CoordinatesValidator,
         SnakePart, 
@@ -26,8 +27,13 @@ define(function() {
         GameOverStrategy,
         config,
         MainView,
-        CellCreator,
+        CellSetter,
         GameDeckCreator,
+        GameDeckStatmentSetter,
+        CellCoordinatesSetter,
+        ButtonSetter,
+        ModalSetter,
+        CountersStatmentSetter,
         Handler
         ) {
         container.addDependency('Observable', function(args) {
@@ -78,6 +84,10 @@ define(function() {
             return Snake.createSnake(...args);
         });
 
+        container.addDependency('SnakeCreator', function(args) {
+            return new SnakeCreator(...args);
+        });
+
         container.addDependency('SnakeValidator', function(args) {
             return new SnakeValidator(...args);
         });
@@ -123,8 +133,28 @@ define(function() {
             return new GameDeckCreator(...args);
         });
 
-        container.addDependency('CellCreator', function(args) {
-            return new CellCreator(...args);
+        container.addDependency('CellSetter', function(args) {
+            return new CellSetter(...args);
+        });
+
+        container.addDependency('GameDeckStatmentSetter', function(args) {
+            return GameDeckStatmentSetter.createGameDeckStatmentSetter(...args);
+        });
+
+        container.addDependency('CellCoordinatesSetter', function(args) {
+            return new CellCoordinatesSetter(...args);
+        });
+
+        container.addDependency('ButtonSetter', function(args) {
+            return new ButtonSetter(...args);
+        });
+
+        container.addDependency('ModalSetter', function(args) {
+            return new ModalSetter(...args);
+        });
+
+        container.addDependency('CountersStatmentSetter', function(args) {
+            return new CountersStatmentSetter(...args);
         });
 
         container.addDependency('Handler', function(args) {

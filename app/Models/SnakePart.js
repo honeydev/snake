@@ -1,3 +1,4 @@
+/** @class SnkaePart - snake body part model */
 define(['app/Models/Cell'], function(Cell) {
     
     'use strict';

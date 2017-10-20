@@ -15,28 +15,27 @@ define(function() {
         generateFoodPart() {
             let foodPart = this._container.getDependency('FoodPart', this._container);
             foodPart.setCoordinates(this._getNotOccupiedCoordinates());
-            //foodPart.setCoordinates([4,7]);
             return foodPart;
         };
 
         _getOccupiedCoordinates() {
-            const snakeParts = this._snake.getAllSnakeParts() ;
+            const SNAKE_PARTS = this._snake.getAllSnakeParts() ;
             let occupiedCoordinates = [];
 
-            for (let i = 0; i < snakeParts.length; i++) {
-                occupiedCoordinates.push(snakeParts[i].getCoordinates());
+            for (let i = 0; i < SNAKE_PARTS.length; i++) {
+                occupiedCoordinates.push(SNAKE_PARTS[i].getCoordinates());
             }
 
             return occupiedCoordinates;
         };
 
         _getNotOccupiedCoordinates() {
-            const occupiedCoordinates = this._getOccupiedCoordinates();
+            const OCCUPIED_COORDINATES = this._getOccupiedCoordinates();
             let generatedCoordinates;
 
             while (true) {
                 generatedCoordinates = this._generateCoordinates();
-                if (this._coordinatesIsNotOccupied(occupiedCoordinates, generatedCoordinates)) {
+                if (this._coordinatesIsNotOccupied(OCCUPIED_COORDINATES, generatedCoordinates)) {
                     break;
                 }
             }
@@ -44,13 +43,13 @@ define(function() {
         };
 
         _generateCoordinates() {
-            const minCoordinateValue = 0;
-            const maxCoordinateValue = this._config.deckRowSize - 1;
+            const MIN_COORDINATE = 0;
+            const MAX_COORDINATE = this._config.deckRowSize - 1;
             let coordinates = [];
 
-            let getRandomCoordinateInInerval = function() {
+            let getRandomCoordinateInInerval = () => {
                 let coordinate;
-                coordinate = Math.random() * (maxCoordinateValue - minCoordinateValue) + minCoordinateValue;
+                coordinate = Math.random()*(MAX_COORDINATE-MIN_COORDINATE) + MIN_COORDINATE;
                 coordinate = Math.round(coordinate);
                 return coordinate;
             };
@@ -76,7 +75,6 @@ define(function() {
                     return false;
                 }
             }
-
             return true;
         };
     }; 

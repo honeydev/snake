@@ -31,7 +31,7 @@ define(['app/Models/BaseModel'], function(BaseModel) {
 
             this._foodPart = newFoodPart;
             this._observable.sendMessage({
-                higlightCells: [this._foodPart.getCoordinates()]
+                createFood: [this._foodPart.getCoordinates()]
             });
         };
 

@@ -13,7 +13,6 @@ define(function() {
 
         checkForGameOver() {
             if (this._gameOverStrategy.isGameOver(this._snake)) {
-
                 this._mainProcessor.stopSnake();
                 this._sendViewMessageAboutGameOver();
                 return true;
@@ -22,7 +21,7 @@ define(function() {
 
         _sendViewMessageAboutGameOver() {
             this._observable.sendMessage({
-                showGameOverMessage: true
+                mode: 'gameOver'
             });
         };
     };

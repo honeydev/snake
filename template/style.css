@@ -7,92 +7,28 @@
     src: url(fonts/Guifx.ttf); 
 }
 #gameDeck {
-   height: 50vh;
+   height: 360px;
 }
 
-.helloMessage  {
-    position: relative;
-    height: 100vh;   /* block height = window height */
-    background-color: #9475d6;
-    font-family: 'Baloo Bhaijaan', cursive;
-    padding-top: 20%;
-}
-
-.helloMessage h1 {
-    font-size: 36px;
-    text-align: center;
-    color: #fff;
-}
-
-.helloMessage .button {
+.controllButtons {
     margin-top: 20px;
+    margin-bottom: 20px;
 }
 
-.helloMessage .button button, 
-.helloMessage .button button:focus,
-.helloMessage .button button:active {
-    margin-top: 20px;
-    color: #9475d6;
-    background-color: #f2d70e;
-    font-size: 25px;
+.counters {
+    margin-top: 40px;
 }
 
-main {
-    background-color: #f2d70e;
-}
-
-main .controllButtons {
-    padding-top: 20px;
-}
-
-main .controllButtons button {
-    height: 15vh;
-    border-radius: 50% 50%;
-    font-family: Guifix;
-    font-size: 40px;
-    padding-top: 10px;
-    padding-left: 18px;
-    background-color: #9475d6;
-    border: none;
-}
-
-main .countersSectionss {
+.gameOverModal {
+    display: none;
     position: absolute;
-    top: 94%;
-}
-
-main .controllButtons button:active {
-    background-color: #f2d70e;
-}
-
-section.deck {
-    padding-top: 20px;
-}
-
-@media(min-width: 750px) {
-    
-    header .header {
-
-    }
-
-    header .warp {
-        
-    }
-
-    header h1 {
-        font-size: 56px;
-    }
-
-    header .button {
-        margin-top: 30px;
-    }
-
-    header .button button, 
-    header .button button:focus,
-    header .button button:active,
-    header .button button:focus {
-        color: #9475d6;
-        background-color: #f2d70e;
-        font-size: 32px;
-    }
+    top: 70%;
+    left: 40%;
+    min-height: 50px;
+    width: 20%;
+    background-color: #fff;
+    padding: 0 2% 1% 2%;
+    text-align: center;
+    z-index: 1;
+    border-radius: 2px;
 }

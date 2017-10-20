@@ -1,3 +1,8 @@
+/**
+ * @class MainProcessor - high level abstraction class, realise 
+ * main game process - snake create, snake movment, snake stop.
+ * Init main logic @class - snake, deck, timer etc.
+ */
 define(['app/Models/BaseModel'], function(BaseModel) {
     
     'use strict';
@@ -10,7 +15,6 @@ define(['app/Models/BaseModel'], function(BaseModel) {
             this._observable = observable;
             this._snake = container.getDependency('Snake');
             this._deck = container.getDependency('Deck', container);
-            //sthis._moveStrategy = container.getDependency('MoveStrategy', container);
             this._timer = container.getDependency('Timer', this._observable);
             this._foodProcessor = container.getDependency(
                 'FoodProcessor', 
@@ -36,24 +40,19 @@ define(['app/Models/BaseModel'], function(BaseModel) {
                 this, 
                 this._observable
                 );
-
-            this._deviceDetector = container.getDependency('DeviceDetector', this._observable);
         };
 
         initSnake() {
             //add two first parts of snake
-            let snakeHead = this._container.getDependency('SnakePart', this._container, null);
-            let snakePart = this._container.getDependency('SnakePart', this._container, snakeHead);
-            snakeHead.setCoordinates([6, 7]);
-            snakePart.setCoordinates([7, 7]);
-            this._deck.changeDeckCell(snakeHead);  
-            this._deck.changeDeckCell(snakePart);
-            this._snake.addSnakePart(snakeHead);
-            this._snake.addSnakePart(snakePart);
-            this._foodProcessor.generateFood(); 
-            this._observable.sendMessage({
-                higlightCells: [snakeHead.getCoordinates(), snakePart.getCoordinates()]
-            });
+            let snakeCreator = this._container.getDependency(
+                'SnakeCreator', 
+                this._container, 
+                this._deck, 
+                this._snake,
+                this._foodProcessor,
+                this._observable
+                );
+            snakeCreator.create();
         };
 
         moveSnake() {
@@ -64,8 +63,8 @@ define(['app/Models/BaseModel'], function(BaseModel) {
                 if (this._gameOver.checkForGameOver()) {
                     return false;
                 }
-                this._moveLoopId = setTimeout(loop.bind(this), 500);
-            }.bind(this), 500);
+                this._moveLoopId = setTimeout(loop.bind(this), temp);
+            }.bind(this), this._temp.getTemp());
         };
 
         stopSnake() {
@@ -75,13 +74,6 @@ define(['app/Models/BaseModel'], function(BaseModel) {
 
         destroyGame() {
             this.stopSnake();
-            let snakePartCoordinates = this._snake.getAllSnakePartsCoordinates();
-            let snakeFoodCoordinates = this._foodProcessor.universalGetter('_foodPart').getCoordinates();
-            let coordinatesCellsForUnhiglight = snakePartCoordinates;
-            coordinatesCellsForUnhiglight.push(snakeFoodCoordinates);
-            this._observable.sendMessage({
-                unHiglightCells: snakePartCoordinates   
-            });
             this._deleteAllProperties();
         };
     };  

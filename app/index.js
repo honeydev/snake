@@ -14,11 +14,9 @@ requirejs.config({
         app: '../app',
         tests: '../tests/src',
         jquery: 'jquery/dist/jquery',
-        bootstrap: 'bootstrap/dist/js/bootstrap',
         mocha: 'mocha/mocha',
         chai: 'chai/chai',
         config: '..',
-        bootstrap: 'bootstrap/dist/js/bootstrap.min',
         paper: 'paper/dist/paper-full'
     },
     shim: {
@@ -28,20 +26,14 @@ requirejs.config({
         chai: {
             exports: "chai"
         },
-        bootstrap: {
-            deps: ['jquery']
-        },
         paper: {
             exports: "paper"
         }
     },
-    // paths: {
-    //     
-    // }
 });
 
-require(['../app/bootstrapcss'], function(bootstrapcss) {
-    bootstrapcss(['node_modules/bootstrap/dist/css/bootstrap.css', 'template/style.css']);
+require(function(bootstrapcss) {
+    bootstrapcss(['template/style.css']);
 });
 
 require([
@@ -59,6 +51,7 @@ require([
     'app/Models/FoodGenerator',
     'app/Models/FoodProcessor',
     'app/Models/Snake',
+    'app/Models/SnakeCreator',
     'app/Validators/SnakeValidator',
     'app/Validators/CoordinatesValidator',
     'app/Models/SnakePart',
@@ -70,10 +63,14 @@ require([
     'config/config',
     'app/Views/MainView',
     'app/Views/GameDeckCreator',
-    'app/Views/CellCreator',
+    'app/Views/CellSetter',
+    'app/Views/GameDeckStatmentSetter',
+    'app/Views/CellCoordinatesSetter',
+    'app/Views/ButtonSetter',
+    'app/Views/ModalSetter',
+    'app/Views/CountersStatmentSetter',
     'app/Handlers/Handler',
     'jquery',
-    'bootstrap',
     'paper'
     ],
     function(
@@ -91,6 +88,7 @@ require([
         FoodGenerator,
         FoodProcessor,
         Snake,
+        SnakeCreator,
         SnakeValidator,
         CoordinatesValidator,
         SnakePart, 
@@ -102,10 +100,14 @@ require([
         config,
         MainView,
         GameDeckCreator,
-        CellCreator,
+        CellSetter,
+        GameDeckStatmentSetter,
+        CellCoordinatesSetter,
+        ButtonSetter,
+        ModalSetter,
+        CountersStatmentSetter,
         Handler,
         jquery,
-        bootstrap,
         paper
         ) {
 
@@ -124,6 +126,7 @@ require([
         FoodGenerator,
         FoodProcessor,
         Snake,
+        SnakeCreator,
         SnakeValidator,
         CoordinatesValidator,
         SnakePart, 
@@ -134,11 +137,15 @@ require([
         GameOverStrategy,
         config,
         MainView,
-        CellCreator,
+        CellSetter,
         GameDeckCreator,
+        GameDeckStatmentSetter,
+        CellCoordinatesSetter,
+        ButtonSetter,
+        ModalSetter,
+        CountersStatmentSetter,
         Handler
         );
-
     let controller = new Controller(container);
-    //let handler = new Handler(controller);
+    let handler = new Handler(controller);
 });

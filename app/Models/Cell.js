@@ -1,8 +1,5 @@
 /**
  * @class default element game deck 
- * @property {array} _currentCoordinates coordinates cell in _deck @property array
- * from @class Deck. Example [4, 1]. First value Y cordinate, second X coordinate
- * on game deck.
  */
 define(function() {
 
@@ -18,17 +15,8 @@ define(function() {
         getCoordinates() {
             return this._currentCoordinates.slice();
         };
-        /** 
-         * @method set new cell coordinates
-         * @param {array} newCoordinates, must be array with two values.
-         * @return {boolean} true if new coordinate correct or false if not.
-         */
         setCoordinates(newCoordinates) {
-            /** 
-             * @function validate coordinates
-             * @param {array} coordinates
-             * @return {boolean} true or false
-             */
+            
             let checkCoordinates = function(coordinates) {
                 try {
                     this._coordinatesValidator.checkCoordinates(coordinates);

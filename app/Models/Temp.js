@@ -6,14 +6,11 @@ define(['app/Models/BaseModel'], function(BaseModel) {
     'use strict';
 
     return class Temp extends BaseModel {
-        /** 
-         * @constructor add class properties
-         * @param {object} observable 
-         */
+
         constructor(observable) {
             super();
             this._observable = observable;
-            this._loopTemp = 500;
+            this._loopTemp = 400;
             this._tempValueFromView = 1;
             this._observable.sendMessage({
                 tempStatment: this._tempValueFromView 
@@ -26,7 +23,7 @@ define(['app/Models/BaseModel'], function(BaseModel) {
          * Send message from view about statment change
          */
         _increaseTemp() {
-            this._loopTemp += 100;
+            this._loopTemp -= 50;
             this._tempValueFromView++;
             this._observable.sendMessage({
                 tempStatment: this._tempValueFromView 
@@ -34,9 +31,7 @@ define(['app/Models/BaseModel'], function(BaseModel) {
         };
 
         /**
-         * @method ifIsReasonSetNewTemp if scoresnumber match condition set new temp]
-         * @param  {number} scores [description]
-         * @return {void|false} false if scores incorrect
+         * @method ifIsReasonSetNewTemp if scoresnumber match condition set new temp
          */
         ifIsReasonSetNewTemp(scores) {
 
@@ -56,18 +51,12 @@ define(['app/Models/BaseModel'], function(BaseModel) {
                 return false;
             }
         };
-        /**
-         * @method  getTemp get current temp
-         * @return {number}
-         */
         getTemp() {
-            return this._temp;
+            return this._loopTemp;
         };
-        /**
-         * @method  setTempToDefault set default temp value
-         */
+
         setTempToDefault() {
-            this._temp = 500;
+            this._loopTemp = 400;
         };
     }; 
 });

@@ -5,14 +5,19 @@ define(['app/Models/BaseModel'], function(BaseModel) {
 
     return class Snake extends BaseModel {
     
-
-        constructor(container, observable) {
+        constructor(container) {
             super();
             this._container = container;
             this._snake = [];
             this._direction = 'up';
             this._validator = container.getDependency('SnakeValidator');
-            this._observable = observable;
+            this._observable = container.getDependency('Observable');
+            this._observable.addSubscriber(
+                container.getDependency(
+                    'GameDeckStatmentSetter',
+                    container
+                )
+            );
         };
 
         eat() {
@@ -22,14 +27,44 @@ define(['app/Models/BaseModel'], function(BaseModel) {
             snakeNewPart.setCoordinates(snakeLastPartCoordinates);
             snakeNewPart._oldCoordinates = null;
             this._snake.push(snakeNewPart);
+            this._observable.sendMessage({
+                createCells: [snakeNewPart.getCoordinates()]
+            });
         };
 
         addSnakePart(snakePart) {
             this._snake.push(snakePart);
         };
 
+        refreshSnakeStatment(snakeHeadCoordinates) {
+            //set new coordinates for all snake parts, except First (snake head)
+            //new statment = coordinates previous snake part           
+            this._setHeadCoordinate(snakeHeadCoordinates);
+            this._setSnakePartsCoordinates();
+        };
+
+        _setHeadCoordinate(headCoordinate) {
+            this._snake[0].setCoordinates(headCoordinate);
+        };
+
+        _setSnakePartsCoordinates() {
+            for (let i = 1; i < this._snake.length; i++) {
+                let currentSnakeIndex = i;
+                let previousSnakePartIndex = i - 1;
+                this._snake[currentSnakeIndex].setCoordinates(
+                    this._snake[previousSnakePartIndex].getOldCoordinates()
+                );
+            }
+        };
+
+        setDirection(newDirection) {
+            if (this._validator.getApprovedDirection(this._direction, newDirection)) {
+                this._direction = newDirection;
+            }
+        };
+
         getAllSnakeParts() {
-            return this._snake;
+            return this._snake.slice();
         };
 
         getAllSnakePartsCoordinates() {
@@ -57,24 +92,6 @@ define(['app/Models/BaseModel'], function(BaseModel) {
             return this._snake[0];
         };
 
-        setDirection(newDirection) {
-            if (this._validator.getApprovedDirection(this._direction, newDirection)) {
-                this._direction = newDirection;
-            }
-        };
-
-        refreshSnakeStatment(snakeHeadCoordinates) {
-            this._snake[0].setCoordinates(snakeHeadCoordinates);
-            //set new coordinates for all snake parts, except First (snake head)
-            //new statment = coordinates previous snake part
-            for (let i = 1; i < this._snake.length; i++) {
-                let currentSnakeIndex = i;
-                let previousSnakePartIndex = i - 1;
-                this._snake[currentSnakeIndex].setCoordinates(
-                    this._snake[previousSnakePartIndex].getOldCoordinates()
-                );
-            }
-        };
 
         static createSnake(container) {
             if (Snake._snakeInstance !== undefined) {

@@ -19,17 +19,11 @@ define(function() {
         MainProcessor,
         MoveStrategy,
         GameOverStrategy,
+        GameDeckStatmentSetter,
+        GameDeckCreator,
+        CellSetter,
+        CellCoordinatesSetter,
         config,
-        PageView,
-        HelloMessageCreator,
-        HelloMessageDomSetter,
-        MainPageCreator,
-        MainPageDomSetter,
-        HelloMessageStatmentSetter,
-        MainPageStatmentSetter,
-        MainPageStatmentSetterMessageProcessor,
-        MainPageConcretElementsSetter,
-        CellColorizer,
         Handler,
         mocha,
         chai,
@@ -99,58 +93,27 @@ define(function() {
         container.addDependency('SnakeValidator', function(args) {
             return new SnakeValidator(...args);
         });
+
+        container.addDependency('GameDeckStatmentSetter', function(args) {
+            return new GameDeckStatmentSetter(...args);
+        });
+
+        container.addDependency('GameDeckCreator', function(args) {
+            return new GameDeckCreator(...args);
+        });
+
+        container.addDependency('CellSetter', function(args) {
+            return new CellSetter(...args);
+        });
+
+        container.addDependency('CellCoordinatesSetter', function(args) {
+            return new CellCoordinatesSetter(...args);
+        });
+
         console.log('config', config);
         container.addDependency('config', function() {
             console.log('config', config);
             return config;
-        });
-
-        container.addDependency('PageView', function(args) {
-            return new PageView(...args);
-        });
-
-        container.addDependency('StatmentSetter', function(args) {
-            return new StatmentSetter(...args);
-        });
-
-        container.addDependency('HelloMessageCreator', function(args) {
-            return new HelloMessageCreator(...args);
-        });
-
-        container.addDependency('HelloMessageDomSetter', function(args) {
-            return new HelloMessageDomSetter(...args);
-        });
-
-        container.addDependency('HelloMessageDomSetter', function(args) {
-            return new HelloMessageDomSetter(...args);
-        });
-
-        container.addDependency('MainPageCreator', function(args) {
-            return new MainPageCreator(...args);
-        });
-
-        container.addDependency('MainPageDomSetter', function(args) {
-            return new MainPageDomSetter(...args);
-        });
-
-        container.addDependency('HelloMessageStatmentSetter', function(args) {
-            return new HelloMessageStatmentSetter(...args);
-        });
-
-        container.addDependency('MainPageStatmentSetter', function(args) {
-            return new MainPageStatmentSetter(...args);
-        });
-    
-        container.addDependency('MainPageStatmentSetterMessageProcessor', function(args) {
-            return new MainPageStatmentSetterMessageProcessor(...args);
-        });
-
-        container.addDependency('MainPageConcretElementsSetter', function(args) {
-            return new MainPageConcretElementsSetter(...args);
-        });
-
-        container.addDependency('CellColorizer', function(args) {
-            return new CellColorizer(...args);
         });
 
         container.addDependency('Handler', function(args) {
@@ -158,6 +121,7 @@ define(function() {
         });
 
         container.addDependency('CellTest', function(args) {
+            console.log(CellTest);
             return new CellTest(...args);
         });
 

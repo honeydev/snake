@@ -1,3 +1,4 @@
+/** @class Timer counter since the begining of the game */
 define(function() {
 
     'use strict';
@@ -28,8 +29,8 @@ define(function() {
                 this._observable.sendMessage({
                     timerStatment: this._getTimeStamp()
                 });
-                this._timeLoopId = setTimeout(func.bind(this), 500);
-            }.bind(this), 500);
+                this._timeLoopId = setTimeout(func.bind(this), 1000);
+            }.bind(this), 1000);
         };
 
         _timeStep() {

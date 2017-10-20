@@ -11,10 +11,8 @@ define(['app/Models/Cell'], function(Cell) {
         static createFoodPart(container) {
 
             if (this._foodPartInstance !== undefined) {
-            	console.log('Attention! Attempt to create new foodPartInstance!');
                 return this._foodPartInstance;
             }
-
             this._snakeInstance = new FoodPart(container);
             return this._snakeInstance;
         };

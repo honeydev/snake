@@ -5,25 +5,17 @@ define(function() {
     return class Handler {
 
         constructor(controller) {
-            this._helloMessageButton(controller);
             this._playButton(controller);
-            this._replayButton(controller);
-            this._leftArrow(controller);
-            this._upArrow(controller);
-            this._rightArrow(controller);
-            this._downArrow(controller);
-            this._gameOverModal(controller);
+            this._resetButton(controller);
+            this._arrows(controller);
+            this._tryAgainButton(controller);
             //console.log(this._controller, this._helloMessageElements, this._mainPageElements);
         };
 
-        _helloMessageButton(controller) {
-            $('#lpButton').click(function() {
-                controller.init();
-            });
-        };
-
         _playButton(controller) {
+            $('#playButton').off();
             $('#playButton').click(function() {
+                console.log('PLAY BUTTON HANDLER');
                 controller.play();
                 this._pauseButton(controller);
             }.bind(this));
@@ -31,48 +23,37 @@ define(function() {
 
         _pauseButton(controller) {
             $('#pauseButton').click(function() {
-                console.log('pause');
                 controller.pause();
-                console.log(this);
                 this._playButton(controller);
             }.bind(this));
         };
 
-        _replayButton(controller) {
-            $('#replayButton').click(function() {
+        _resetButton(controller) {
+            $('#resetButton').click(function() {
                 controller.replay();
                 this._playButton(controller);
             }.bind(this));
         };
 
-        _leftArrow(controller) {
-            $('#leftArrow').click(function() {
-                controller.changeDirection('left');
-            });
-        };
-
-        _upArrow(controller) {
-            $('#upArrow').click(function() {
-                controller.changeDirection('up');
-            });
-        };
-
-        _rightArrow(controller) {
-            $('#rightArrow').click(function() {
-                controller.changeDirection('right');
-            });
-        };        
-
-        _downArrow(controller) {
-            $('#downArrow').click(function() {
-                controller.changeDirection('down');
-            });
-        };
-
-        _gameOverModal(controller) {
-            $('#gameOverModal').on('hidden.bs.modal', function(e) {
+        _tryAgainButton(controller) {
+            $('#tryAgainButton').click(function() {
                 controller.replay();
+                this._playButton(controller);
+            }.bind(this));
+        };
+
+        _arrows(controller) {
+            $(document).keydown(function(event) {
+                if (event.which == 37) {
+                    controller.changeDirection('left')
+                } else if (event.which == 38) {
+                    controller.changeDirection('up');
+                } else if (event.which == 39) {
+                    controller.changeDirection('right');
+                }  else if (event.which == 40) {
+                    controller.changeDirection('down');
+                }
             });
-        };    
+        };
     }; 
 });

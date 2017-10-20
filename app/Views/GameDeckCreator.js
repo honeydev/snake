@@ -7,14 +7,16 @@ define(function() {
 
         constructor() {
             console.log('asad');
-            this._createGameField();
+            setTimeout(() => {
+                this._createGameField();               
+            }, 100);
         };
 
         _createGameField() {
-            this._gameDeck = new paper.Rectangle(new paper.Point(0, 0), new paper.Point(360, 360));
-            this._gameDeckPath = new paper.Path.Rectangle(this._gameDeck);
-            this._gameDeckPath.fillColor = 'black';
-            this._gameDeckPath.selected = false;
+            let gameDeck = new paper.Rectangle(new paper.Point(0, 0), new paper.Point(360, 360));
+            let gameDeckPath = new paper.Path.Rectangle(gameDeck);
+            gameDeckPath.fillColor = 'black';
+            gameDeckPath.selected = false;
         };
     }; 
 });

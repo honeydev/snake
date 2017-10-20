@@ -1,3 +1,4 @@
+/** @class - StepProcessor define snake movment logic */
 define(function() {
 
     'use strict';
@@ -9,8 +10,8 @@ define(function() {
             this._snake = snake;
             this._deck = deck;
             this._moveStrategy = container.getDependency('MoveStrategy', container);
-            this._foodProcessor = foodProcessor;
             this._scoreCounter = container.getDependency('ScoresCounter', observable);
+            this._foodProcessor = foodProcessor;
             this._temp = temp;
             this._eating = false;
         };
@@ -45,7 +46,6 @@ define(function() {
         _sendMessageFromView() {
             let allSnakePartsCoordinaes = this._snake.getAllSnakePartsCoordinates();
             let snakeParts = this._snake.universalGetter('_snake');
-
             let lastSnakePartCoordinates;
                 
             if (this._eating) {
@@ -56,8 +56,7 @@ define(function() {
             }
 
             this._observable.sendMessage({
-                higlightCells: allSnakePartsCoordinaes,
-                unHiglightCells: [lastSnakePartCoordinates]
+                renderStep: allSnakePartsCoordinaes,
             });
         };
     };

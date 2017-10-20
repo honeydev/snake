@@ -1,16 +1,14 @@
 /**
  * @class Deck create and contain game deck, set deck statements
- * @property {object} _config contain app settings
- * @property {array} _deck 2-d array, contain Cell and SnakeParts objects.
- * First array index - y coordinate on deck, second - x coordinate.
- * @property {object}  [_foodPart] [food object theres one copy on board]
+ * @property {array} - _deck - contain all deck elements
+ * @property {object} _foodPart food element, eat for snake
  */
 define(['app/Models/BaseModel'], function(BaseModel) {
     
     'use strict';
 
     return class Deck extends BaseModel {
-        /** @constructor set properties, generate deck */
+
         constructor(container) {
             super();
             this._container = container;
@@ -18,39 +16,15 @@ define(['app/Models/BaseModel'], function(BaseModel) {
             this._deck = this._generateDeck(this._config.deckRowSize);
             this._foodPart = null;
         };
-        /**
-         * @method [setFoodPart  add foodPart object in properties, and add it 
-         * in deck array]
-         * @param {object} foodPart [FoodPart @class instance]
-         */
-        setFoodPart(foodPart) {
 
-            if (this._foodPart !== null) {
-                delete this._foodPart;
-            }
-
-            this.changeDeckCell(foodPart);
-            this._foodPart = foodPart;
-        };
-        /**
-         * @method  [getFoodPart get current FoodPart object]
-         * @return {[object]}
-         */
-        getFoodPart() {
-            return this._foodPart;
-        };
         /**
          * @method _generateDeck create deck arrray, fill it Cell objects
-         * @param Cell constructor Cell @class
-         * @rowSize {number} rowSize deck row size
-         * @return {array} deck array
          */
         _generateDeck(rowSize) {
 
             let deck = [];
             /** @function [createDeckRows description] */
             let createDeckRows = () => {
-
                 let rowIndex = 0;
 
                 for (rowIndex; rowIndex < rowSize; rowIndex++) {
@@ -58,10 +32,7 @@ define(['app/Models/BaseModel'], function(BaseModel) {
                     fillDeckRow(rowIndex);
                 }
             };
-            /**
-             * @function fill _deck array objects of Cell @class
-             * @param  {[number]} rowIndex [index current row in 2-d array _deck]
-             */
+
             let fillDeckRow = (rowIndex) => {
                 let columnIndex = 0;
 
@@ -98,17 +69,25 @@ define(['app/Models/BaseModel'], function(BaseModel) {
             }
         };
         /**
-         * method replace object in deck array (cell on snake part and conversely)
-         * @var indexY - index in deck array
-         * @var indexX - index in deck array
-         * @newPartTypeObject - new part of deck object constructor
-         * @partObejctArgs - array with argumets for part of deck contructor
-         * @return - new object type of Cell or SnakePart
+         * @method replace object in deck array (cell on snake part and conversely)
          */
         changeDeckCell(newDeckPart) {
             let newPartCoordinates = newDeckPart.getCoordinates();
             this._deck[newPartCoordinates[0]][newPartCoordinates[1]] = newDeckPart;
-            return true;
+        };
+
+        setFoodPart(foodPart) {
+
+            if (this._foodPart !== null) {
+                delete this._foodPart;
+            }
+
+            this.changeDeckCell(foodPart);
+            this._foodPart = foodPart;
+        };
+
+        getFoodPart() {
+            return this._foodPart;
         };
     };
 });

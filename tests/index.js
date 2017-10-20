@@ -10,10 +10,10 @@ requirejs.config({
         app: '../app',
         tests: '../tests/src',
         jquery: 'jquery/dist/jquery',
-        bootstrap: 'bootstrap/dist/js/bootstrap',
         mocha: 'mocha/mocha',
         chai: 'chai/chai',
-        config: '..'
+        config: '..',
+        paper: 'paper/dist/paper-full'
     },
     shim: {
         mocha: {
@@ -22,7 +22,9 @@ requirejs.config({
         chai: {
             exports: "chai"
         },
-        'bootstrap': ['jquery']
+        paper: {
+            exports: "paper"
+        }     
     }
 });
 
@@ -30,7 +32,7 @@ require(['../tests/bootstrapcss'], function(bootstrapcss) {
     bootstrapcss(['../node_modules/mocha/mocha.css']);
 });
 
-    require([
+require([
     'app/Container',
     '../tests/bootstraptests',
     'app/Models/Observable',
@@ -48,30 +50,25 @@ require(['../tests/bootstrapcss'], function(bootstrapcss) {
     'app/Models/MainProcessor',
     'app/Models/MoveStrategy',
     'app/Models/GameOverStrategy',
+    'app/Views/GameDeckStatmentSetter',
+    'app/Views/GameDeckCreator',
+    'app/Views/CellSetter',
+    'app/Views/CellCoordinatesSetter',
     'config/config',
-    'app/Views/PageView',
-    'app/Views/HelloMessageCreator',
-    'app/Views/HelloMessageDomSetter',
-    'app/Views/MainPageCreator',
-    'app/Views/MainPageDomSetter',
-    'app/Views/HelloMessageStatmentSetter',
-    'app/Views/MainPageStatmentSetter',
-    'app/Views/MainPageStatmentSetterMessageProcessor',
-    'app/Views/MainPageConcretElementsSetter',
-    'app/Views/CellColorizer',
     'app/Handlers/Handler',
     'jquery',
     'mocha',
     'chai',
+    'paper',
     'tests/CellTest', 
     'tests/DeckTest',
     'tests/MoveStrategyTest',
     'tests/SnakeValidatorTest',
     'tests/FoodGeneratorTest',
     'tests/GameOverStrategyTest'
-    ],
+    ], 
     function(
-        Container, 
+        Container,
         bootstraptests,
         Observable,
         Controller,
@@ -84,34 +81,27 @@ require(['../tests/bootstrapcss'], function(bootstrapcss) {
         SnakeValidator,
         FoodGenerator,
         CoordinatesValidator,
-        SnakePart, 
+        SnakePart,
         MainProcessor,
         MoveStrategy,
         GameOverStrategy,
+        GameDeckStatmentSetter,
+        GameDeckCreator,
+        CellSetter,
+        CellCoordinatesSetter,
         config,
-        PageView,
-        StatmentSetter,
-        HelloMessageCreator,
-        HelloMessageDomSetter,
-        MainPageCreator,
-        MainPageDomSetter,
-        HelloMessageStatmentSetter,
-        MainPageStatmentSetter,
-        MainPageConcretElementSetter,
-        CellColorizer,
         Handler,
         jquery,
         mocha,
         chai,
+        paper,
         CellTest, 
         DeckTest,
         MoveStrategyTest,
         SnakeValidatorTest,
         FoodGeneratorTest,
-        GameOverStrategyTest
+        GameOverStrategyTest          
         ) {
-
-
     let container = new Container();
 
     bootstraptests(
@@ -131,17 +121,11 @@ require(['../tests/bootstrapcss'], function(bootstrapcss) {
         MainProcessor,
         MoveStrategy,
         GameOverStrategy,
+        GameDeckStatmentSetter,
+        GameDeckCreator,
+        CellSetter,
+        CellCoordinatesSetter,
         config,
-        PageView,
-        StatmentSetter,
-        HelloMessageCreator,
-        HelloMessageDomSetter,
-        MainPageCreator,
-        MainPageDomSetter,
-        HelloMessageStatmentSetter,
-        MainPageStatmentSetter,
-        MainPageConcretElementSetter,
-        CellColorizer,
         Handler,
         mocha,
         chai,
@@ -152,18 +136,17 @@ require(['../tests/bootstrapcss'], function(bootstrapcss) {
         FoodGeneratorTest,
         GameOverStrategyTest
         );
-
-    let cellTest = container.getDependency('CellTest', container);
-    let deckTest = container.getDependency('DeckTest', container);
-    let moveStrategyTest = container.getDependency('MoveStrategyTest', container);
-    let snakeValidatorTest = container.getDependency('SnakeValidatorTest', container);
-    let foodGeneratorTest = container.getDependency('FoodGeneratorTest', container);
-    let gameOverStrategyTest = container.getDependency('GameOverStrategyTest', container);
-    console.log(foodGeneratorTest);
-    cellTest.test();
-  	deckTest.test();
-  	moveStrategyTest.test();
- 	snakeValidatorTest.test();
-  	foodGeneratorTest.test();
-    gameOverStrategyTest.test();
-});
+        let cellTest = container.getDependency('CellTest', container);
+        let deckTest = container.getDependency('DeckTest', container);
+        let moveStrategyTest = container.getDependency('MoveStrategyTest', container);
+        let snakeValidatorTest = container.getDependency('SnakeValidatorTest', container);
+        let foodGeneratorTest = container.getDependency('FoodGeneratorTest', container);
+        let gameOverStrategyTest = container.getDependency('GameOverStrategyTest', container);
+        console.log(foodGeneratorTest);
+        cellTest.test();
+        deckTest.test();
+        moveStrategyTest.test();
+        snakeValidatorTest.test();
+        foodGeneratorTest.test();
+        gameOverStrategyTest.test();
+    });

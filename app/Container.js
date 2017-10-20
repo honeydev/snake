@@ -13,6 +13,9 @@ define(function() {
         };
   
         getDependency(dependencyName, ...args) {
+            if (this._dependencies[dependencyName] == undefined) {
+                throw new Error(`${dependencyName} not found `)
+            }
             return this._dependencies[dependencyName](args);
         };
     };
