@@ -3,12 +3,8 @@ define(function() {
     'use strict';
 
     return class CellSetter {
-        
-        constructor() {
-        }
 
         createCell(coordinates) {
-            console.log('create cell', coordinates);
             let cell = new paper.Rectangle(coordinates.x, coordinates.y, 30, 30);
             this.cellPath = new paper.Path.Rectangle(cell);
             this.cellPath.fillColor = 'red';
@@ -16,7 +12,6 @@ define(function() {
         };
 
         deleteCell(...cells) {
-            console.log('deleteCell', cells);
             cells.forEach((cell) => {
                 cell.remove();
             });

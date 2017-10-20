@@ -4,10 +4,6 @@ define(function() {
 
     return class CountersStatmentSetter {
 
-        constructor(container) {
-
-        };
-
         _setTimer(timeStamp) {
             $('#timerValue').text(timeStamp);
         };

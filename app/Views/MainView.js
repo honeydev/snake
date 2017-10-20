@@ -5,15 +5,12 @@ define(function() {
     return class MainView {
         
         constructor(container) {
-            console.log('mainView');
-
             this._gameDeckStatmentSetter = container.getDependency('GameDeckStatmentSetter', container);
             this._cellSetter = container.getDependency('CellSetter');
             this._cellCordinatesSetter = container.getDependency('CellCoordinatesSetter');
             this._buttonSetter = container.getDependency('ButtonSetter');
             this._modalSetter = container.getDependency('ModalSetter');
             this._countersStatmentSetter = container.getDependency('CountersStatmentSetter');
-            console.log(this._gameDeckStatmentSetter, this._cellSetter);
         };
 
         processMessage(message) {

@@ -32,8 +32,8 @@ requirejs.config({
     },
 });
 
-require(function(bootstrapcss) {
-    bootstrapcss(['template/style.css']);
+require(['app/bootstrapcss'], function(bootstrapcss) {
+    //bootstrapcss(['template/style.css']);
 });
 
 require([

@@ -15,8 +15,9 @@ define(function() {
         getCoordinates() {
             return this._currentCoordinates.slice();
         };
+        
         setCoordinates(newCoordinates) {
-            
+
             let checkCoordinates = function(coordinates) {
                 try {
                     this._coordinatesValidator.checkCoordinates(coordinates);

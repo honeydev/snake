@@ -3,10 +3,8 @@ define(function() {
     'use strict';
 
     return class GameDeckCreator {
-        
-
+    
         constructor() {
-            console.log('asad');
             setTimeout(() => {
                 this._createGameField();               
             }, 100);

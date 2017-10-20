@@ -6,7 +6,6 @@ define(function() {
         
         setCoordinates(coordinates, cell) {
             cell.position = this._prepareCoordinates(coordinates);
-            console.log(cell);
         };
 
         _prepareCoordinates(coordinates) {

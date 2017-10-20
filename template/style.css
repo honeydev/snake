@@ -2,12 +2,13 @@
 
 @import url('https://fonts.googleapis.com/css?family=Baloo+Bhaijaan');
 /* font for buttons */
-@font-face {
-    font-family: Guifix; 
-    src: url(fonts/Guifx.ttf); 
-}
+
 #gameDeck {
    height: 360px;
+}
+
+.gameDeck {
+    margin-left: 31.3%;
 }
 
 .controllButtons {

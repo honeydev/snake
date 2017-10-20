@@ -3,43 +3,41 @@ define(function() {
     'use strict';
 
     return class Handler {
-
+        
         constructor(controller) {
             this._playButton(controller);
             this._resetButton(controller);
             this._arrows(controller);
             this._tryAgainButton(controller);
-            //console.log(this._controller, this._helloMessageElements, this._mainPageElements);
         };
 
         _playButton(controller) {
             $('#playButton').off();
-            $('#playButton').click(function() {
-                console.log('PLAY BUTTON HANDLER');
+            $('#playButton').click(() => {
                 controller.play();
                 this._pauseButton(controller);
-            }.bind(this));
+            });
         };
 
         _pauseButton(controller) {
-            $('#pauseButton').click(function() {
+            $('#pauseButton').click(() => {
                 controller.pause();
                 this._playButton(controller);
-            }.bind(this));
+            });
         };
 
         _resetButton(controller) {
-            $('#resetButton').click(function() {
+            $('#resetButton').click(() => {
                 controller.replay();
                 this._playButton(controller);
-            }.bind(this));
+            });
         };
 
         _tryAgainButton(controller) {
-            $('#tryAgainButton').click(function() {
+            $('#tryAgainButton').click(() => {
                 controller.replay();
                 this._playButton(controller);
-            }.bind(this));
+            });
         };
 
         _arrows(controller) {
