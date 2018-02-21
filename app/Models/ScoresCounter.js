@@ -3,7 +3,9 @@ define(['app/Models/BaseModel'], function(BaseModel) {
     'use strict';
 
     return class ScoresCounter extends BaseModel {
-
+        /**
+         * @param  {Observable} observable [description]
+         */
         constructor(observable) {
         	super();
         	this._observable = observable;

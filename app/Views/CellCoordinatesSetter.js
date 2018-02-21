@@ -3,7 +3,10 @@ define(function() {
     'use strict';
 
     return class CellCoordinatesSetter {
-        
+        /**
+         * @param {[array]} coordinates [description]
+         * @param {[Cell]} cell        [description]
+         */
         setCoordinates(coordinates, cell) {
             cell.position = this._prepareCoordinates(coordinates);
         };

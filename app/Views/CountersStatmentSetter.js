@@ -11,7 +11,7 @@ define(function() {
         _setScores(scores) {
             $('#scoresValue').text(scores);
         };
-
+        
         _setTemp(temp) {
             $('#tempValue').text(temp);
         };

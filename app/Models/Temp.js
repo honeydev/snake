@@ -32,6 +32,7 @@ define(['app/Models/BaseModel'], function(BaseModel) {
 
         /**
          * @method ifIsReasonSetNewTemp if scoresnumber match condition set new temp
+         * @param {int}
          */
         ifIsReasonSetNewTemp(scores) {
 
@@ -51,6 +52,9 @@ define(['app/Models/BaseModel'], function(BaseModel) {
                 return false;
             }
         };
+        /**
+         * @return {[int]} [description]
+         */
         getTemp() {
             return this._loopTemp;
         };

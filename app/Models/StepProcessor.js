@@ -4,7 +4,14 @@ define(function() {
     'use strict';
 
     return class StepProcessor {
-
+        /**
+         * @param  {Container} container    
+         * @param  {Deck} deck         
+         * @param  {Snake} snake        
+         * @param  {Observable} observable   
+         * @param  {FoodProcessor} foodProcessor
+         * @param  {Temp} temp                     
+         */
         constructor(container, deck, snake, observable, foodProcessor, temp) {
             this._observable = observable;
             this._snake = snake;
@@ -25,7 +32,9 @@ define(function() {
             this._refreshDeckAndSnakeStatments(newHeadCoordinates);
             this._sendMessageFromView();
         };
-
+        /**
+         * @param  {array} snakeHeadCoordinates                   
+         */
         _whetherEatingSnake(snakeHeadCoordinates) {
             if (this._foodProcessor.snakeHeadAndSnakeFoodCoordinatesIsEqual(snakeHeadCoordinates)) {
                 this._snake.eat();
@@ -37,7 +46,9 @@ define(function() {
                 this._eating = true;
             }
         };
-
+        /**
+         * @param  {[array]} newHeadCoordinates
+         */
         _refreshDeckAndSnakeStatments(newHeadCoordinates) {
             this._snake.refreshSnakeStatment(newHeadCoordinates);
             this._deck.synchronizeDeckAndSnake(this._snake.getAllSnakeParts());

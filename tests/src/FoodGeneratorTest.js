@@ -6,7 +6,6 @@ define(['tests/BaseTest'], function(BaseTest) {
         
         constructor(container) {
             super(container);
-            console.log('food generator');
             this._snake = container.getDependency('Snake', container);
             this._container = container;
             this._fillSnake(this._snake);
@@ -27,14 +26,12 @@ define(['tests/BaseTest'], function(BaseTest) {
                 let snakePart = this._container.getDependency('SnakePart', this._container, previousPart);
                 snakePart.setCoordinates([counter, 7]);
                 snake.addSnakePart(snakePart);
-                console.log(counter);
                 previousPart = snakePart;
                 counter++;
             }
         };
 
         test() {
-            console.log('test FoodGenerator');
             this._testGenerateFood();
         };
 
@@ -60,7 +57,6 @@ define(['tests/BaseTest'], function(BaseTest) {
                 it('foodPart y coordinate must be less then all snake parts y coordinate', function() {
                     
                     for (let i = 0; i < 50; i++) {
-                        console.log(i);
                         let foodPart = foodGenerator.generateFoodPart();
                         if (foodPartYCoorinate <= yMinimal && xCoordinate == 7) {
                             assert.isAtMost(foodPartYCoorinate, yMinimal);

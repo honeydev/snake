@@ -101,7 +101,6 @@ define(function() {
         });
 
         container.addDependency('StepProcessor', function(args) {
-            console.log(StepProcessor);
             return new StepProcessor(...args);
         })
 

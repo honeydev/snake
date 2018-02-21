@@ -10,7 +10,9 @@ define(function() {
             this._mainProcessor = mainProcessor;
             this._observable = observable;
         };
-
+        /**
+         * @return {[bool]} [description]
+         */
         checkForGameOver() {
             if (this._gameOverStrategy.isGameOver(this._snake)) {
                 this._mainProcessor.stopSnake();
@@ -18,7 +20,7 @@ define(function() {
                 return true;
             }
         };
-
+        
         _sendViewMessageAboutGameOver() {
             this._observable.sendMessage({
                 mode: 'gameOver'

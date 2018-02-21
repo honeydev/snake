@@ -6,7 +6,6 @@ define(['tests/BaseTest'], function(BaseTest) {
 
         constructor(container) {
             super(container);
-            console.log('food generator');
             this._gameOverStrategy = container.getDependency('GameOverStrategy');
             this._snake = container.getDependency('Snake', container);
             this._container = container;

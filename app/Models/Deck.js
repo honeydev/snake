@@ -19,6 +19,8 @@ define(['app/Models/BaseModel'], function(BaseModel) {
 
         /**
          * @method _generateDeck create deck arrray, fill it Cell objects
+         * @param {int} rowSize
+         * @return {array}
          */
         _generateDeck(rowSize) {
 
@@ -48,8 +50,7 @@ define(['app/Models/BaseModel'], function(BaseModel) {
         };
         /**
          * @method [synchronizeDeckAndSnake ]
-         * @param  {[type]} snake [description]
-         * @return {[type]}       [description]
+         * @param  {Snake} snake
          */
         synchronizeDeckAndSnake(snake) {
 
@@ -70,12 +71,15 @@ define(['app/Models/BaseModel'], function(BaseModel) {
         };
         /**
          * @method replace object in deck array (cell on snake part and conversely)
+         * @param {Cell} newDeckPart
          */
         changeDeckCell(newDeckPart) {
             let newPartCoordinates = newDeckPart.getCoordinates();
             this._deck[newPartCoordinates[0]][newPartCoordinates[1]] = newDeckPart;
         };
-
+        /**
+         * @param {FoodPart} foodPart
+         */
         setFoodPart(foodPart) {
 
             if (this._foodPart !== null) {
@@ -85,7 +89,9 @@ define(['app/Models/BaseModel'], function(BaseModel) {
             this.changeDeckCell(foodPart);
             this._foodPart = foodPart;
         };
-
+        /**
+         * @return {FoodPart}
+         */
         getFoodPart() {
             return this._foodPart;
         };

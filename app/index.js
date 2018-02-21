@@ -1,6 +1,7 @@
 /**
  * @author Lebedev Alexey
  * @license GPL v3.0
+ * @link https://github.com/honeydev/snake
  */
 requirejs.config({
     //By default load any module IDs from js/lib

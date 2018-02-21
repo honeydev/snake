@@ -6,7 +6,13 @@ define(function() {
     'use strict';
 
     return class SnakeCreator {
-
+        /**
+         * @param  {Container} container     
+         * @param  {Deck} deck          
+         * @param  {Snake} snake         
+         * @param  {FoodProcessor} foodProcessor 
+         * @param  {[Observable} observable    
+         */
         constructor(container, deck, snake, foodProcessor, observable) {
             this._container = container;
             this._deck = deck;
@@ -18,8 +24,8 @@ define(function() {
         create() {
             let snakeHead = this._container.getDependency('SnakePart', this._container, null);
             let snakePart = this._container.getDependency('SnakePart', this._container, snakeHead);
-            snakeHead.setCoordinates([6, 7]);
-            snakePart.setCoordinates([7, 7]);
+            snakeHead.setCoordinates([6, 6]);
+            snakePart.setCoordinates([7, 6]);
             this._deck.changeDeckCell(snakeHead);  
             this._deck.changeDeckCell(snakePart);
             this._snake.addSnakePart(snakeHead);

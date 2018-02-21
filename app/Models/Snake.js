@@ -33,20 +33,26 @@ define(['app/Models/BaseModel'], function(BaseModel) {
                 createCells: [snakeNewPart.getCoordinates()]
             });
         };
-
+        /**
+         * @param {SnakePart} snakePart [description]
+         */
         addSnakePart(snakePart) {
             this._snake.push(snakePart);
         };
-
+        /**
+         * @param  {array} snakeHeadCoordinates [description]
+         */
         refreshSnakeStatment(snakeHeadCoordinates) {
             //set new coordinates for all snake parts, except First (snake head)
             //new statment = coordinates previous snake part           
-            this._setHeadCoordinate(snakeHeadCoordinates);
+            this._setHeadCoordinates(snakeHeadCoordinates);
             this._setSnakePartsCoordinates();
         };
-
-        _setHeadCoordinate(headCoordinate) {
-            this._snake[0].setCoordinates(headCoordinate);
+        /**
+         * @param {[array]} headCoordinate [description]
+         */
+        _setHeadCoordinates(headCoordinates) {
+            this._snake[0].setCoordinates(headCoordinates);
         };
 
         _setSnakePartsCoordinates() {
@@ -58,11 +64,12 @@ define(['app/Models/BaseModel'], function(BaseModel) {
                 );
             }
         };
-
+        /**
+         * @param {string} newDirection [description]
+         */
         setDirection(newDirection) {
 
             if (!this._canChangeDirection) {
-                console.log('change direction false');
                 return null;
             }
 
@@ -70,13 +77,17 @@ define(['app/Models/BaseModel'], function(BaseModel) {
                 this._direction = newDirection;
             }
             this._canChangeDirection = false;
-            setTimeout(() => this._canChangeDirection = true, 300);
+            setTimeout(() => this._canChangeDirection = true, 200);
         };
-
+        /**
+         * @return {} [description]
+         */
         getAllSnakeParts() {
             return this._snake.slice();
         };
-
+        /**
+         * @return {[array]} [description]
+         */
         getAllSnakePartsCoordinates() {
             let allCoordinates = [];
 
@@ -86,22 +97,24 @@ define(['app/Models/BaseModel'], function(BaseModel) {
 
             return allCoordinates;
         };
-
+        /**
+         * @return {boolean|SnakePart} [description]
+         */
         getLastSnakePart() {
             if (this._snake.length === 0) {
                 return false;
             }
             return this._snake[this._snake.length - 1];
         };
-
+        /**
+         * @return {[type]} [description]
+         */
         getFirstSnakePart() {
-
             if (this._snake.length === 0) {
                 return false;
             }
             return this._snake[0];
         };
-
 
         static createSnake(container) {
             if (Snake._snakeInstance !== undefined) {

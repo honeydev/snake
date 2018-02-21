@@ -11,13 +11,17 @@ define(function() {
             this._snake = snake;
             this._config = container.getDependency('config');
         };
-
+        /**
+         * @return {FoodPart}
+         */
         generateFoodPart() {
             let foodPart = this._container.getDependency('FoodPart', this._container);
             foodPart.setCoordinates(this._getNotOccupiedCoordinates());
             return foodPart;
         };
-
+        /**
+         * @return {array}
+         */
         _getOccupiedCoordinates() {
             const SNAKE_PARTS = this._snake.getAllSnakeParts() ;
             let occupiedCoordinates = [];
@@ -28,7 +32,9 @@ define(function() {
 
             return occupiedCoordinates;
         };
-
+        /**
+         * @return {[array]}
+         */
         _getNotOccupiedCoordinates() {
             const OCCUPIED_COORDINATES = this._getOccupiedCoordinates();
             let generatedCoordinates;
@@ -41,7 +47,9 @@ define(function() {
             }
             return generatedCoordinates;
         };
-
+        /**
+         * @return {[array]} [description]
+         */
         _generateCoordinates() {
             const MIN_COORDINATE = 0;
             const MAX_COORDINATE = this._config.deckRowSize - 1;
@@ -58,7 +66,11 @@ define(function() {
             coordinates.push(getRandomCoordinateInInerval());
             return coordinates;
         };
-
+        /**
+         * @param  {[array]} occupiedCoordinates  [description]
+         * @param  {[array]} generatedCoordinates [description]
+         * @return {[bool]}                      [description]
+         */
         _coordinatesIsNotOccupied(occupiedCoordinates, generatedCoordinates) {
 
             let coordinatesEqual = function(firstCoordinate, secondCoordinate) {

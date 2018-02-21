@@ -1,0 +1,35 @@
+/* user styles */
+
+@import url('https://fonts.googleapis.com/css?family=Baloo+Bhaijaan');
+/* font for buttons */
+
+#gameDeck {
+   height: 390px;
+}
+
+.gameDeck {
+    margin-left: 29.5%;
+}
+
+.controllButtons {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.counters {
+    margin-top: 40px;
+}
+
+.gameOverModal {
+    display: none;
+    position: absolute;
+    top: 30%;
+    left: 40%;
+    min-height: 20%;
+    width: 20%;
+    background-color: #fff;
+    padding-top: 1%;
+    text-align: center;
+    z-index: 1;
+    border-radius: 2px;
+}

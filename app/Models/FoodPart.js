@@ -7,14 +7,16 @@ define(['app/Models/Cell'], function(Cell) {
         constructor(container) {
         	super(container);
         };
-
+        /**
+         * @return {FoodPart}
+         */
         static createFoodPart(container) {
 
             if (this._foodPartInstance !== undefined) {
                 return this._foodPartInstance;
             }
-            this._snakeInstance = new FoodPart(container);
-            return this._snakeInstance;
+            this._foodPartInstance = new FoodPart(container);
+            return this._foodPartInstance;
         };
     };
 });

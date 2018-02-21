@@ -110,9 +110,7 @@ define(function() {
             return new CellCoordinatesSetter(...args);
         });
 
-        console.log('config', config);
         container.addDependency('config', function() {
-            console.log('config', config);
             return config;
         });
 
@@ -121,7 +119,6 @@ define(function() {
         });
 
         container.addDependency('CellTest', function(args) {
-            console.log(CellTest);
             return new CellTest(...args);
         });
 

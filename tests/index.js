@@ -142,7 +142,6 @@ require([
         let snakeValidatorTest = container.getDependency('SnakeValidatorTest', container);
         let foodGeneratorTest = container.getDependency('FoodGeneratorTest', container);
         let gameOverStrategyTest = container.getDependency('GameOverStrategyTest', container);
-        console.log(foodGeneratorTest);
         cellTest.test();
         deckTest.test();
         moveStrategyTest.test();

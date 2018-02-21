@@ -17,7 +17,6 @@ define(function() {
         };
 
         sendMessage(message) {
-            console.log(this._subscribers);
             for (let j = 0; j < this._subscribers.length; j++) {
                 this._subscribers[j].processMessage(message);
             }

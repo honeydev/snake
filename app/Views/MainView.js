@@ -12,7 +12,9 @@ define(function() {
             this._modalSetter = container.getDependency('ModalSetter');
             this._countersStatmentSetter = container.getDependency('CountersStatmentSetter');
         };
-
+        /**
+         * @param  {[string]} message [description]
+         */
         processMessage(message) {
 
             if (!message.hasOwnProperty('mode')) {

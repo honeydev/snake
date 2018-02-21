@@ -1,5 +1,5 @@
 (define(function() {
 	return {
-		deckRowSize: 12
+		deckRowSize: 13
 	}
 }));

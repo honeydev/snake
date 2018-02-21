@@ -25,6 +25,8 @@ define(function() {
         /**
          * @method _checkNewDirectionOnOpposite check new dirrecion on opposite current dirrection,
          * snake can't start move in opposite direction
+         * @param {string} [currentDirection]
+         * @param {string} [newDirection] 
          */
         _checkNewDirectionOnOpposite(currentDirection, newDirection) {
 
@@ -41,6 +43,7 @@ define(function() {
         /**
          * @method _checkDirection check some direction value. 
          * It's should be in array VALID_DIRECTIONS
+         * @param {string} [direction] 
          * @throws {Error} Invalid direction
          */
         _checkDirection(direction) {
@@ -52,12 +55,18 @@ define(function() {
         };
         /** 
          * @method _checkDirectionOnChange checks whether the changed move direction
+         * @param {string} [currentDirection]
+         * @param {string} [newDirection]
          */
         _checkDirectionOnChange(currentDirection, newDirection) {
             if (this._directionNotChnaged(currentDirection, newDirection))
                 throw new Error('Direction not change');
         };
-
+        /**
+         * @param  {[string]} currentDirection
+         * @param  {[string]} newDirection 
+         * @return {[true]}
+         */
         _directionNotChnaged(currentDirection, newDirection) {
             if (currentDirection == newDirection) return true;
             return false;

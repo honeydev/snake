@@ -5,13 +5,15 @@ define(function() {
     return class GameDeckStatmentSetter {
         
         constructor(container) {
-            container.getDependency('GameDeckCreator');
+            container.getDependency('GameDeckCreator', container);
             this._snake = [];
             this._food = null;
             this._cellSetter = container.getDependency('CellSetter');
             this._cellCoordinatesSetter = container.getDependency('CellCoordinatesSetter');
         };
-
+        /**
+         * @param  {[array]} coordinates 
+         */
         createCell(coordinates) {
             coordinates = this._adaptateCoordinates(coordinates);
             for (let i = 0; i < coordinates.length; i++) {
@@ -58,7 +60,9 @@ define(function() {
             });
             return coordinates
         };
-
+        /**
+         * @param  {[string]} message [description]
+         */
         processMessage(message) {
             if (message.hasOwnProperty('createCells')) {
                 this.createCell(message.createCells);
