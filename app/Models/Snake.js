@@ -10,6 +10,7 @@ define(['app/Models/BaseModel'], function(BaseModel) {
             this._container = container;
             this._snake = [];
             this._direction = 'up';
+            this._canChangeDirection = true;
             this._validator = container.getDependency('SnakeValidator');
             this._observable = container.getDependency('Observable');
             this._observable.addSubscriber(
@@ -26,6 +27,7 @@ define(['app/Models/BaseModel'], function(BaseModel) {
             let snakeLastPartCoordinates = snakeLastPart.getCoordinates();
             snakeNewPart.setCoordinates(snakeLastPartCoordinates);
             snakeNewPart._oldCoordinates = null;
+            this._canChangeDirection = true;
             this._snake.push(snakeNewPart);
             this._observable.sendMessage({
                 createCells: [snakeNewPart.getCoordinates()]
@@ -58,9 +60,17 @@ define(['app/Models/BaseModel'], function(BaseModel) {
         };
 
         setDirection(newDirection) {
+
+            if (!this._canChangeDirection) {
+                console.log('change direction false');
+                return null;
+            }
+
             if (this._validator.getApprovedDirection(this._direction, newDirection)) {
                 this._direction = newDirection;
             }
+            this._canChangeDirection = false;
+            setTimeout(() => this._canChangeDirection = true, 300);
         };
 
         getAllSnakeParts() {
