@@ -10,7 +10,7 @@ define(['app/Models/BaseModel'], function(BaseModel) {
             this._container = container;
             this._snake = [];
             this._direction = 'up';
-            this._canChangeDirection = true;
+            this._newDirection = null;
             this._validator = container.getDependency('SnakeValidator');
             this._observable = container.getDependency('Observable');
             this._observable.addSubscriber(
@@ -22,7 +22,7 @@ define(['app/Models/BaseModel'], function(BaseModel) {
         };
 
         eat() {
-            const snakeLastPart = this._snake[this._snake.length - 1];
+            let snakeLastPart = this._snake[this._snake.length - 1];
             let snakeNewPart = this._container.getDependency('SnakePart', this._container, snakeLastPart);
             let snakeLastPartCoordinates = snakeLastPart.getCoordinates();
             snakeNewPart.setCoordinates(snakeLastPartCoordinates);
@@ -67,17 +67,17 @@ define(['app/Models/BaseModel'], function(BaseModel) {
         /**
          * @param {string} newDirection [description]
          */
-        setDirection(newDirection) {
-
-            if (!this._canChangeDirection) {
-                return null;
-            }
-
+        setNewDirection(newDirection) {
             if (this._validator.getApprovedDirection(this._direction, newDirection)) {
-                this._direction = newDirection;
+                this._newDirection = newDirection;
             }
-            this._canChangeDirection = false;
-            setTimeout(() => this._canChangeDirection = true, 200);
+        };
+
+        ifExitNewDirectionApplyIt() {
+            if (this._newDirection != null) {
+                this._direction = this._newDirection;
+                this._newDirection = null;
+            }
         };
         /**
          * @return {} [description]

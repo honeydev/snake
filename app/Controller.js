@@ -55,7 +55,7 @@ define(function() {
         };
 
         changeDirection(direction) {
-            this._snake.setDirection(direction);
+            this._snake.setNewDirection(direction);
         };
     };
 });

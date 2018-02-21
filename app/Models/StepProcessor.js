@@ -21,9 +21,11 @@ define(function() {
             this._foodProcessor = foodProcessor;
             this._temp = temp;
             this._eating = false;
+            this._newDirection = null;
         };
 
         doStep() {
+            this._snake.ifExitNewDirectionApplyIt();
             let snakeDirection = this._snake.universalGetter('_direction');
             let snakeHeadCoordinates = this._snake.getFirstSnakePart().getCoordinates();
             let newHeadCoordinates = this._moveStrategy.

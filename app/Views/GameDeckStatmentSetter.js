@@ -28,7 +28,8 @@ define(function() {
             }
             coordinate = this._adaptateCoordinates(coordinate);
             coordinate = coordinate[0];
-            this._food = this._cellSetter.createCell(coordinate);   
+            console.log('create food coordinaate', coordinate);
+            this._food = this._cellSetter.createCell(coordinate);
         };
 
         clearDeck() {
